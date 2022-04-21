@@ -1,0 +1,4 @@
+C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/untitled.dir
+C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/edit_cache.dir
+C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/rebuild_cache.dir
+C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/untitled_autogen.dir

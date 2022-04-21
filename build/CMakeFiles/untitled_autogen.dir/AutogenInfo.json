@@ -1,0 +1,169 @@
+{
+	"BUILD_DIR" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/untitled_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled",
+	"CMAKE_EXECUTABLE" : "C:/Users/Firefly/Apps/CMake/bin/cmake.exe",
+	"CMAKE_LIST_FILES" : 
+	[
+		"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/CMakeLists.txt",
+		"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/3.23.0-rc5/CMakeSystem.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake",
+		"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/3.23.0-rc5/CMakeCXXCompiler.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeGenericSystem.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Platform/Windows.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Platform/WindowsPaths.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeCXXInformation.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Compiler/GNU-CXX.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Compiler/GNU.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Platform/Windows-GNU-CXX.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Platform/Windows-GNU.cmake",
+		"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/3.23.0-rc5/CMakeRCCompiler.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeRCInformation.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Platform/Windows-windres.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5/Qt5ConfigVersion.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5/Qt5Config.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5/Qt5ConfigVersion.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5/Qt5Config.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5/Qt5ModuleLocation.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Core/Qt5CoreConfig.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Core/Qt5CoreMacros.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeParseArguments.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QVirtualKeyboardPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QWindowsIntegrationPlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Widgets/Qt5Widgets_QWindowsVistaStylePlugin.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeParseArguments.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/battery.h",
+			"MU",
+			"EWIEGA46WW/moc_battery.cpp",
+			null
+		],
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/frmbattery.h",
+			"MU",
+			"EWIEGA46WW/moc_frmbattery.cpp",
+			null
+		],
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/mainwindow.h",
+			"MU",
+			"EWIEGA46WW/moc_mainwindow.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/untitled_autogen/include",
+	"MOC_COMPILATION_FILE" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/untitled_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_WIDGETS_LIB" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build",
+		"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/include",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtANGLE",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore",
+		"C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/win32-g++",
+		"C:/Users/Firefly/Apps/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
+		"C:/Users/Firefly/Apps/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
+		"C:/Users/Firefly/Apps/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
+		"C:/Users/Firefly/Apps/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
+		"C:/Users/Firefly/Apps/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed",
+		"C:/Users/Firefly/Apps/mingw64/x86_64-w64-mingw32/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"C:/Users/Firefly/Apps/mingw64/bin/g++.exe",
+		"-dM",
+		"-E",
+		"-c",
+		"C:/Users/Firefly/Apps/CMake/share/cmake-3.23/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/untitled_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/untitled_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/bin/moc.exe",
+	"QT_UIC_EXECUTABLE" : "C:/Users/Firefly/Apps/Qt/Qt5.12.12/5.12.12/mingw73_64/bin/uic.exe",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 12,
+	"SETTINGS_FILE" : "C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/build/CMakeFiles/untitled_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/battery.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/frmbattery.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/main.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Firefly/Apps/E/VS_Code/VS_Code_C++/Qt/untitled/mainwindow.cpp",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}
