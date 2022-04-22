@@ -24,6 +24,10 @@ set(PROJECT_SOURCES
         frmbattery.cpp
         frmbattery.h
         frmbattery.ui
+        creatureUI.h
+        cowUI.h
+        grassUI.h
+        tigerUI.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -1,6 +1,6 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "files.autoSave": "off",
+    "files.autoSave": "afterDelay",
     "cSpell.words": [
         "FRMBATTERY"
     ]

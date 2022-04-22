@@ -11,7 +11,7 @@ Battery::Battery(QWidget *parent) : QWidget(parent)
     maxValue = 100;
     value = 0;
     alarmValue = 30;
-    step = 0.5;
+    step = 10;
 
     borderWidth = 5;
     borderRadius = 8;

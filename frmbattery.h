@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class frmBattery;
+    class frmBattery;
 }
 
 class frmBattery : public QWidget
