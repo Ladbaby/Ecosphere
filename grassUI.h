@@ -1,10 +1,13 @@
+#ifndef GRASSUI_H
+#define GRASSUI_H
 #include "creatureUI.h"
 
 class grassUI : public creatureUI{
     Q_OBJECT
 public:
-    grassUI(){
+    grassUI(QWidget* parent) : creatureUI(parent){
         setNumberOfCreature(100);
     }
 
 };
+# endif

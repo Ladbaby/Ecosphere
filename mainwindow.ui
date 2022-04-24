@@ -1,181 +1,234 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>MainWindow</class>
-    <widget class="QMainWindow" name="MainWindow">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>881</width>
-                <height>603</height>
-            </rect>
-        </property>
-        <property name="windowTitle">
-            <string>MainWindow</string>
-        </property>
-        <widget class="QWidget" name="centralwidget">
-            <widget class="QWidget" name="verticalLayoutWidget">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>881</width>
-                        <height>581</height>
-                    </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout">
-                    <property name="bottomMargin">
-                        <number>20</number>
-                    </property>
-                    <item>
-                        <widget class="QOpenGLWidget" name="openGLWidget" />
-                    </item>
-                    <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout">
-                            <property name="rightMargin">
-                                <number>20</number>
-                            </property>
-                            <item>
-                                <widget class="QPushButton" name="startButton">
-                                    <property name="sizePolicy">
-                                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="font">
-                                        <font>
-                                            <family>Consolas</family>
-                                        </font>
-                                    </property>
-                                    <property name="text">
-                                        <string>Start/Stop</string>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <layout class="QVBoxLayout" name="verticalLayout_2">
-                                    <item>
-                                        <layout class="QHBoxLayout" name="horizontalLayout_grass">
-                                            <item>
-                                                <widget class="QCheckBox" name="checkBox_grass">
-                                                    <property name="font">
-                                                        <font>
-                                                            <family>Consolas</family>
-                                                        </font>
-                                                    </property>
-                                                    <property name="text">
-                                                        <string>Grass</string>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QSlider" name="horizontalSlider_grass">
-                                                    <property name="orientation">
-                                                        <enum>Qt::Horizontal</enum>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QLineEdit" name="lineEdit_grass">
-                                                    <property name="sizePolicy">
-                                                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                            <horstretch>0</horstretch>
-                                                            <verstretch>0</verstretch>
-                                                        </sizepolicy>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                        </layout>
-                                    </item>
-                                    <item>
-                                        <layout class="QHBoxLayout" name="horizontalLayout_cow">
-                                            <item>
-                                                <widget class="QCheckBox" name="checkBox_cow">
-                                                    <property name="font">
-                                                        <font>
-                                                            <family>Consolas</family>
-                                                        </font>
-                                                    </property>
-                                                    <property name="text">
-                                                        <string>Cow</string>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QSlider" name="horizontalSlider_cow">
-                                                    <property name="orientation">
-                                                        <enum>Qt::Horizontal</enum>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QLineEdit" name="lineEdit_cow">
-                                                    <property name="sizePolicy">
-                                                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                            <horstretch>0</horstretch>
-                                                            <verstretch>0</verstretch>
-                                                        </sizepolicy>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                        </layout>
-                                    </item>
-                                    <item>
-                                        <layout class="QHBoxLayout" name="horizontalLayout_tiger">
-                                            <property name="bottomMargin">
-                                                <number>10</number>
-                                            </property>
-                                            <item>
-                                                <widget class="QCheckBox" name="checkBox_tiger">
-                                                    <property name="font">
-                                                        <font>
-                                                            <family>Consolas</family>
-                                                        </font>
-                                                    </property>
-                                                    <property name="text">
-                                                        <string>Tiger</string>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QSlider" name="horizontalSlider_tiger">
-                                                    <property name="orientation">
-                                                        <enum>Qt::Horizontal</enum>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QLineEdit" name="lineEdit_tiger">
-                                                    <property name="sizePolicy">
-                                                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                            <horstretch>0</horstretch>
-                                                            <verstretch>0</verstretch>
-                                                        </sizepolicy>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                        </layout>
-                                    </item>
-                                </layout>
-                            </item>
-                        </layout>
-                    </item>
-                </layout>
-            </widget>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>881</width>
+    <height>603</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>881</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="bottomMargin">
+      <number>20</number>
+     </property>
+     <item>
+      <widget class="QOpenGLWidget" name="openGLWidget"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="startButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="text">
+          <string>Start/Stop</string>
+         </property>
         </widget>
-        <widget class="QMenuBar" name="menubar">
-            <property name="geometry">
-                <rect>
-                    <x>0</x>
-                    <y>0</y>
-                    <width>881</width>
-                    <height>20</height>
-                </rect>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="grassUI" name="horizontalWidget_grass" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_grass">
+            <item>
+             <widget class="QCheckBox" name="checkBox_grass">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="text">
+               <string>Grass</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_grass">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="text">
+               <string>number: 100</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_grass">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="cowUI" name="horizontalWidget_cow" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_cow">
+            <item>
+             <widget class="QCheckBox" name="checkBox_cow">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cow</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_cow">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="text">
+               <string>number: 10</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_cow">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="tigerUI" name="horizontalWidget_tiger" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_tiger">
+            <property name="bottomMargin">
+             <number>10</number>
             </property>
-        </widget>
-        <widget class="QStatusBar" name="statusbar" />
-    </widget>
-    <resources />
-    <connections />
+            <item>
+             <widget class="QCheckBox" name="checkBox_tiger">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="text">
+               <string>Tiger</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_tiger">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="text">
+               <string>number: 1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_tiger">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>881</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>grassUI</class>
+   <extends>QWidget</extends>
+   <header location="global">grassUI.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>cowUI</class>
+   <extends>QWidget</extends>
+   <header location="global">cowUI.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>tigerUI</class>
+   <extends>QWidget</extends>
+   <header location="global">tigerUI.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>
