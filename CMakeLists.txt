@@ -28,6 +28,8 @@ set(PROJECT_SOURCES
         cowUI.h
         grassUI.h
         tigerUI.h
+        graph.h
+        graph.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

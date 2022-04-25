@@ -6,6 +6,7 @@
 #include "cowUI.h"
 #include "tigerUI.h"
 #include <string>
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,6 +26,8 @@ private:
     cowUI *cowWidget;
     tigerUI *tigerWidget;
     std::string trim(std::string str);
+    void resizeEvent(QResizeEvent *event);
+    graph *overlookGraph;
 
 private slots:
     void updateNumberOfGrass();

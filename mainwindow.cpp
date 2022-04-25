@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow), overlookGraph(new graph(this))
 {
     ui->setupUi(this);
     grassWidget = ui->horizontalWidget_grass;
@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
                     SIGNAL(returnPressed()),
                     this,
                     SLOT(updateNumberOfTiger()));
+    // auto overlookGraph = new graph(ui->scrollArea);
+    ui->scrollArea->setWidget(overlookGraph);
+    // this->overlookGraph = overlookGraph;
 }
 
 MainWindow::~MainWindow()
@@ -94,4 +97,18 @@ std::string MainWindow::trim(std::string str){
     //删除最后一个不是空格的字符到字符串结尾
     str.erase(str.find_last_not_of(" ")+1, str.length());
     return str;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event){
+    //重新设置坐标原点位置，并保持原点相对窗口的位置不变
+    overlookGraph->painter.setViewport(overlookGraph->viewPort1.x() * overlookGraph->width(),
+                        overlookGraph->viewPort1.y() * overlookGraph->height(),
+                        overlookGraph->width(),
+                        overlookGraph->height());
+    //更新图像窗口的宽高信息
+    overlookGraph->graphW = overlookGraph->width();
+    overlookGraph->graphH = overlookGraph->height();
+    //及时刷新图像
+    // this->update();
+    ui->verticalWidget->resize(frameGeometry().size());
 }

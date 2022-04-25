@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>881</width>
-    <height>603</height>
+    <width>879</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QWidget" name="verticalWidget" native="true">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -25,174 +25,225 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="bottomMargin">
-      <number>20</number>
+      <number>50</number>
      </property>
      <item>
-      <widget class="QOpenGLWidget" name="openGLWidget"/>
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>877</width>
+          <height>410</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="rightMargin">
-        <number>20</number>
+      <widget class="QWidget" name="horizontalWidge_main" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <item>
-        <widget class="QPushButton" name="startButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <family>Consolas</family>
-          </font>
-         </property>
-         <property name="text">
-          <string>Start/Stop</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="grassUI" name="horizontalWidget_grass" native="true">
-           <layout class="QHBoxLayout" name="horizontalLayout_grass">
-            <item>
-             <widget class="QCheckBox" name="checkBox_grass">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="startButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Start/Stop</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="verticalWidget2" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="grassUI" name="horizontalWidget_grass" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_grass">
+              <item>
+               <widget class="QCheckBox" name="checkBox_grass">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Grass</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_grass">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>number: 100</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit_grass">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="cowUI" name="horizontalWidget_cow" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_cow">
+              <item>
+               <widget class="QCheckBox" name="checkBox_cow">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Cow</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_cow">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>number: 10</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit_cow">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="tigerUI" name="horizontalWidget_tiger" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_tiger">
+              <property name="bottomMargin">
+               <number>7</number>
               </property>
-              <property name="text">
-               <string>Grass</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_grass">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
-              </property>
-              <property name="text">
-               <string>number: 100</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lineEdit_grass">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="cowUI" name="horizontalWidget_cow" native="true">
-           <layout class="QHBoxLayout" name="horizontalLayout_cow">
-            <item>
-             <widget class="QCheckBox" name="checkBox_cow">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
-              </property>
-              <property name="text">
-               <string>Cow</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_cow">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
-              </property>
-              <property name="text">
-               <string>number: 10</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lineEdit_cow">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="tigerUI" name="horizontalWidget_tiger" native="true">
-           <layout class="QHBoxLayout" name="horizontalLayout_tiger">
-            <property name="bottomMargin">
-             <number>10</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="checkBox_tiger">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
-              </property>
-              <property name="text">
-               <string>Tiger</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_tiger">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
-              </property>
-              <property name="text">
-               <string>number: 1</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lineEdit_tiger">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+              <item>
+               <widget class="QCheckBox" name="checkBox_tiger">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Tiger</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_tiger">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>number: 1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit_tiger">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -202,12 +253,19 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>881</width>
-     <height>22</height>
+     <width>879</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
