@@ -188,6 +188,22 @@ void graph::paintGraph(QPainter &painter){
         painter.drawLine(QPointF(10, this->viewPort1.y() * this->height() * (-1) + 10),
                          QPointF(0, this->viewPort1.y() * this->height() * (-1)));
     }
+    
+    // QImage imageScaled = database->grassWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
+    
+    // 画grass
+
+    database->grassWidget->setCreatureImage(database->grassWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation));
+    for (int i = 0; i < 1; ++i){ //database->grassWidget->getNumberOfCreature()
+        painter.drawImage(QPointF(0.0, 0.0), database->grassWidget->getCreatureImage());
+        // painter.drawImage(QPointF(0.0, 0.0), imageScaled);
+    }
+    // imageScaled = database->cowWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
+    database->cowWidget->setCreatureImage(database->cowWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation));
+    for (int i = 0; i < 1; ++i){ //database->grassWidget->getNumberOfCreature()
+        painter.drawImage(QPointF(1000.0, 0.0), database->cowWidget->getCreatureImage());
+        // painter.drawImage(QPointF(1000.0, 0.0), imageScaled);
+    }
 }
 
 void graph::mousePressEvent(QMouseEvent *event){

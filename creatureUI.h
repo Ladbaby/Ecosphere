@@ -14,9 +14,20 @@ public:
     const int getNumberOfCreature()const{
         return numberOfCreature;
     }
+    void setCreatureImage(const QString &str){
+        // qDebug() << str << endl;
+        creatureImage.load(str);
+    }
+    void setCreatureImage(const QImage &i){
+        creatureImage = i;
+    }
+    const QImage getCreatureImage()const{
+        return creatureImage;
+    }
 
 private:
     int numberOfCreature;
+    QImage creatureImage;
     // std::string trim(std::string str){
     //     //删除0到第一个不是空格的字符
     //     str.erase(0, str.find_first_not_of(" "));

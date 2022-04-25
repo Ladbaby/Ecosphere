@@ -2,11 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "grassUI.h"
-#include "cowUI.h"
-#include "tigerUI.h"
+// #include "grassUI.h"
+// #include "cowUI.h"
+// #include "tigerUI.h"
 #include <string>
 #include "graph.h"
+// #include "database.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,12 +20,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    D *database;
 
 private:
     Ui::MainWindow *ui;
-    grassUI *grassWidget;
-    cowUI *cowWidget;
-    tigerUI *tigerWidget;
     std::string trim(std::string str);
     void resizeEvent(QResizeEvent *event);
     graph *overlookGraph;

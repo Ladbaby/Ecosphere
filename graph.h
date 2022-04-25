@@ -7,6 +7,7 @@
 #include <QColor>
 #include <QPainterPath>
 #include <QDebug>
+#include "database.h"
 
 //自定义图像显示区域的QOpenGLWidget
 class graph : public QOpenGLWidget
@@ -27,6 +28,7 @@ public:
     QColor backgroundColor = Qt::white;
     //用户自定义的背景图片
     QImage customizedImage;
+    D *database;
     //判定是否有customizedImage
     bool ifImage = false;
     //判定鼠标是否按下并拖拽
@@ -62,4 +64,4 @@ public slots:
     void paintEvent(QPaintEvent *event);
 };
 
-#endif // MYGRAPH_H
+#endif

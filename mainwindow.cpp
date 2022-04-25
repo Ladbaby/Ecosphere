@@ -3,12 +3,13 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), overlookGraph(new graph(this))
+    , ui(new Ui::MainWindow), overlookGraph(new graph(this)), database(new D())
 {
     ui->setupUi(this);
-    grassWidget = ui->horizontalWidget_grass;
-    cowWidget = ui->horizontalWidget_cow;
-    tigerWidget = ui->horizontalWidget_tiger;
+    overlookGraph->database = database;
+    database->grassWidget = ui->horizontalWidget_grass;
+    database->cowWidget = ui->horizontalWidget_cow;
+    database->tigerWidget = ui->horizontalWidget_tiger;
     QObject::connect(ui->lineEdit_grass,
                     SIGNAL(returnPressed()),
                     this,
@@ -45,7 +46,7 @@ void MainWindow::updateNumberOfGrass(){
         else
             return;
     }
-    grassWidget->setNumberOfCreature(sum);
+    database->grassWidget->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_grass->setText(QString::fromStdString(tempString));
     qDebug() << sum << endl;
@@ -65,7 +66,7 @@ void MainWindow::updateNumberOfCow(){
         else
             return;
     }
-    cowWidget->setNumberOfCreature(sum);
+    database->cowWidget->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_cow->setText(QString::fromStdString(tempString));
     qDebug() << sum << endl;
@@ -85,7 +86,7 @@ void MainWindow::updateNumberOfTiger(){
         else
             return;
     }
-    tigerWidget->setNumberOfCreature(sum);
+    database->tigerWidget->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_tiger->setText(QString::fromStdString(tempString));
     qDebug() << sum << endl;

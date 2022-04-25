@@ -7,6 +7,7 @@ class grassUI : public creatureUI{
 public:
     grassUI(QWidget* parent) : creatureUI(parent){
         setNumberOfCreature(100);
+        setCreatureImage(QString::fromUtf8(":/doge.jpg"));
     }
 
 };

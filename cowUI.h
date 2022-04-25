@@ -7,6 +7,7 @@ class cowUI : public creatureUI{
 public:
     cowUI(QWidget* parent) : creatureUI(parent){
         setNumberOfCreature(10);
+        setCreatureImage(QString::fromUtf8(":/fjzy.jpg"));
     }
 
 };
