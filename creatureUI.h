@@ -24,10 +24,30 @@ public:
     const QImage getCreatureImage()const{
         return creatureImage;
     }
-
+    // void setTargetWidth(const float &t){
+    //     targetWidth = t;
+    // }
+    // const float getTargetWidth()const{
+    //     return targetWidth;
+    // }
+    // void setTargetHeight(const float &t){
+    //     targetHeight = t;
+    // }
+    // const float getTargetHeight()const{
+    //     return targetHeight;
+    // }
+    void setImageSize(const QSize &s){
+        imageSize = s;
+    }
+    QSize getImageSize(){
+        return imageSize;
+    }
 private:
     int numberOfCreature;
     QImage creatureImage;
+    // float targetWidth;
+    // float targetHeight;
+    QSize imageSize;
     // std::string trim(std::string str){
     //     //删除0到第一个不是空格的字符
     //     str.erase(0, str.find_first_not_of(" "));

@@ -109,7 +109,10 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     //更新图像窗口的宽高信息
     overlookGraph->graphW = overlookGraph->width();
     overlookGraph->graphH = overlookGraph->height();
-    //及时刷新图像
-    // this->update();
     ui->verticalWidget->resize(frameGeometry().size());
+    // 更新动物图片大小 为opengl窗口的1/20
+
+    database->grassWidget->setImageSize(database->grassWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    database->cowWidget->setImageSize(database->cowWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    database->tigerWidget->setImageSize(database->tigerWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
 }

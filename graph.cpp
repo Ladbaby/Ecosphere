@@ -3,7 +3,9 @@
 
 graph::graph(QWidget *parent) : QOpenGLWidget(parent)
 {
-    
+    srand((unsigned)time(NULL));
+    customizedImage.load(":/doge.gif");
+    ifImage == true;
 }
 
 void graph::paintEvent(QPaintEvent *event){
@@ -192,17 +194,14 @@ void graph::paintGraph(QPainter &painter){
     // QImage imageScaled = database->grassWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
     
     // 画grass
-
-    database->grassWidget->setCreatureImage(database->grassWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation));
-    for (int i = 0; i < 1; ++i){ //database->grassWidget->getNumberOfCreature()
-        painter.drawImage(QPointF(0.0, 0.0), database->grassWidget->getCreatureImage());
-        // painter.drawImage(QPointF(0.0, 0.0), imageScaled);
+    for (int i = 0; i < database->grassWidget->getNumberOfCreature(); ++i){ 
+        painter.drawImage(QRectF(QPointF(rand() / double(RAND_MAX) * -1000, rand() / double(RAND_MAX) * 1000), database->grassWidget->getImageSize()), database->grassWidget->getCreatureImage());
     }
-    // imageScaled = database->cowWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
-    database->cowWidget->setCreatureImage(database->cowWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation));
-    for (int i = 0; i < 1; ++i){ //database->grassWidget->getNumberOfCreature()
-        painter.drawImage(QPointF(1000.0, 0.0), database->cowWidget->getCreatureImage());
-        // painter.drawImage(QPointF(1000.0, 0.0), imageScaled);
+    for (int i = 0; i < database->cowWidget->getNumberOfCreature(); ++i){ 
+        painter.drawImage(QRectF(QPointF(rand() / double(RAND_MAX) * -1000, rand() / double(RAND_MAX) * 1000), database->cowWidget->getImageSize()), database->cowWidget->getCreatureImage());
+    }
+    for (int i = 0; i < database->tigerWidget->getNumberOfCreature(); ++i){ 
+        painter.drawImage(QRectF(QPointF(rand() / double(RAND_MAX) * -1000, rand() / double(RAND_MAX) * 1000), database->tigerWidget->getImageSize()), database->tigerWidget->getCreatureImage());
     }
 }
 

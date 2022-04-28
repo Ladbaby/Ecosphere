@@ -7,6 +7,8 @@
 #include <QColor>
 #include <QPainterPath>
 #include <QDebug>
+#include <stdlib.h>
+#include <time.h>
 #include "database.h"
 
 //自定义图像显示区域的QOpenGLWidget

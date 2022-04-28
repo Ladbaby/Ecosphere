@@ -43,8 +43,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>877</width>
-          <height>410</height>
+          <width>861</width>
+          <height>357</height>
          </rect>
         </property>
        </widget>
@@ -254,9 +254,16 @@
      <x>0</x>
      <y>0</y>
      <width>879</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuwtf">
+    <property name="title">
+     <string>Option</string>
+    </property>
+    <addaction name="actionBackground"/>
+   </widget>
+   <addaction name="menuwtf"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="sizePolicy">
@@ -266,6 +273,11 @@
     </sizepolicy>
    </property>
   </widget>
+  <action name="actionBackground">
+   <property name="text">
+    <string>Background</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

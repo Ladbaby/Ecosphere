@@ -3,5 +3,7 @@
     <qresource>
         <file alias="doge.jpg">image/doge.jpg</file>
         <file alias="fjzy.jpg">image/fjzy.jpg</file>
+        <file alias="oceancat.jpg">image/oceancat.jpg</file>
+        <file alias="doge.gif">image/doge.gif</file>
     </qresource>
 </RCC>
