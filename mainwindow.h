@@ -7,6 +7,8 @@
 // #include "tigerUI.h"
 #include <string>
 #include "graph.h"
+#include <QFileDialog>
+#include <QGraphicsView>
 // #include "database.h"
 
 QT_BEGIN_NAMESPACE
@@ -32,5 +34,14 @@ private slots:
     void updateNumberOfGrass();
     void updateNumberOfCow();
     void updateNumberOfTiger();
+    void on_actionwhite_triggered();
+    void on_actionsample_image_triggered();
+    void on_actioncustomized_image_triggered();
+    void on_actionGrid_triggered();
+    void on_actionAxis_triggered();
+    void on_actiongrass_triggered();
+    void on_actioncow_triggered();
+    void on_actiontiger_triggered();
+    void on_actionSave_Image_triggered();
 };
 #endif // MAINWINDOW_H

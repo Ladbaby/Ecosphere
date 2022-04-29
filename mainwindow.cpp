@@ -10,6 +10,23 @@ MainWindow::MainWindow(QWidget *parent)
     database->grassWidget = ui->horizontalWidget_grass;
     database->cowWidget = ui->horizontalWidget_cow;
     database->tigerWidget = ui->horizontalWidget_tiger;
+
+    QPixmap image("");
+    double h = ui->icon_grass->height();
+    double w = ui->icon_grass->width();
+    image.convertFromImage(database->grassWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+    ui->icon_grass->setPixmap(image);
+
+    h = ui->icon_cow->height();
+    w = ui->icon_cow->width();
+    image.convertFromImage(database->cowWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+    ui->icon_cow->setPixmap(image);
+
+    h = ui->icon_tiger->height();
+    w = ui->icon_tiger->width();
+    image.convertFromImage(database->tigerWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+    ui->icon_tiger->setPixmap(image);
+
     QObject::connect(ui->lineEdit_grass,
                     SIGNAL(returnPressed()),
                     this,
@@ -22,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
                     SIGNAL(returnPressed()),
                     this,
                     SLOT(updateNumberOfTiger()));
+    // QObject::connect(ui->actionBackground,
+    //                 SIGNAL(triggered()),
+    //                 this,
+    //                 SLOT(on_actionBackground_tiggered()));
     // auto overlookGraph = new graph(ui->scrollArea);
     ui->scrollArea->setWidget(overlookGraph);
     // this->overlookGraph = overlookGraph;
@@ -115,4 +136,109 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     database->grassWidget->setImageSize(database->grassWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     database->cowWidget->setImageSize(database->cowWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     database->tigerWidget->setImageSize(database->tigerWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+}
+
+void MainWindow::on_actionwhite_triggered(){
+    overlookGraph->backgroundColor = Qt::white;
+    overlookGraph->ifImage = false;
+    overlookGraph->repaint();
+}
+void MainWindow::on_actionsample_image_triggered(){
+    overlookGraph->customizedImage.load(":/background.jpg");
+    overlookGraph->ifImage = true;
+    overlookGraph->repaint();
+}
+void MainWindow::on_actioncustomized_image_triggered()
+{
+    //弹出图像选择框，获取图片绝对路径
+    QString OpenFile = QFileDialog::getOpenFileName(this,
+            "choose an image for the background",
+            "//",
+            "Image Files(*.jpg *.png *.bmp *.pgm *.pbm);;All(*.*)");
+    //不点取消时
+    if (OpenFile != "")
+    {
+        //加载图像并重画
+        overlookGraph->customizedImage.load(OpenFile);
+        overlookGraph->ifImage = true;
+        overlookGraph->repaint();
+    }
+}
+void MainWindow::on_actionGrid_triggered()
+{
+    overlookGraph->ifGrid = (overlookGraph->ifGrid == true ? false : true);
+    overlookGraph->repaint();
+}
+
+void MainWindow::on_actionAxis_triggered()
+{
+    overlookGraph->ifAxis = (overlookGraph->ifAxis == true ? false : true);
+    overlookGraph->repaint();
+}
+void MainWindow::on_actiongrass_triggered(){
+    QString OpenFile = QFileDialog::getOpenFileName(this,
+            "choose an image for the background",
+            "//",
+            "Image Files(*.jpg *.png *.bmp *.pgm *.pbm);;All(*.*)");
+    //不点取消时
+    if (OpenFile != "")
+    {
+        //加载图像并重画
+        database->grassWidget->setCreatureImage(OpenFile);
+        QPixmap image("");
+        double h = ui->icon_grass->height();
+        double w = ui->icon_grass->width();
+        image.convertFromImage(database->grassWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+        ui->icon_grass->setPixmap(image);
+        this->update();
+    }
+}
+void MainWindow::on_actioncow_triggered(){
+    QString OpenFile = QFileDialog::getOpenFileName(this,
+            "choose an image for the background",
+            "//",
+            "Image Files(*.jpg *.png *.bmp *.pgm *.pbm);;All(*.*)");
+    //不点取消时
+    if (OpenFile != "")
+    {
+        //加载图像并重画
+        database->cowWidget->setCreatureImage(OpenFile);
+        QPixmap image("");
+        double h = ui->icon_cow->height();
+        double w = ui->icon_cow->width();
+        image.convertFromImage(database->cowWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+        ui->icon_cow->setPixmap(image);
+        this->update();
+    }
+}
+void MainWindow::on_actiontiger_triggered(){
+    QString OpenFile = QFileDialog::getOpenFileName(this,
+            "choose an image for the background",
+            "//",
+            "Image Files(*.jpg *.png *.bmp *.pgm *.pbm);;All(*.*)");
+    //不点取消时
+    if (OpenFile != "")
+    {
+        //加载图像并重画
+        database->tigerWidget->setCreatureImage(OpenFile);
+        QPixmap image("");
+        double h = ui->icon_tiger->height();
+        double w = ui->icon_tiger->width();
+        image.convertFromImage(database->tigerWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+        ui->icon_tiger->setPixmap(image);
+        this->update();
+    }
+}
+void MainWindow::on_actionSave_Image_triggered(){
+    //弹出保存位置的选择框，顺便获取绝对路径
+    QString filePath = QFileDialog::getSaveFileName(this, "Save Image", "", "PNG (*.png);;JPEG (*.jpg *jpeg);;All files(*.*)");
+    //点了取消按钮
+    if(filePath == "")
+        return;
+    //调用paintEvent绘制图片
+    overlookGraph->ifSave = true;
+    overlookGraph->repaint();
+    overlookGraph->ifSave = false;
+    //保存
+    overlookGraph->background.save(filePath);
 }

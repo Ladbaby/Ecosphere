@@ -31,6 +31,14 @@ set(PROJECT_SOURCES
     graph.h
     graph.cpp
     database.h
+    Creature.h
+    Creature.cpp
+    Grass.h
+    Grass.cpp
+    Parameter.h
+    Parameter.cpp
+    World.h
+    World.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
