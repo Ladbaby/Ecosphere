@@ -24,11 +24,6 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    battery.cpp
-    battery.h
-    frmbattery.cpp
-    frmbattery.h
-    frmbattery.ui
     creatureUI.h
     cowUI.h
     grassUI.h

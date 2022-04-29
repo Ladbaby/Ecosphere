@@ -1,6 +1,5 @@
 #pragma execution_character_set("utf-8")
 
-#include "frmbattery.h"
 #include <QApplication>
 #include <QTextCodec>
 
