@@ -1,6 +1,10 @@
 #pragma once
 #include<set>
+#include<math.h>
+#define PI 2*acos(0.0)
 
+
+// double PI=2*acos(0.0);
 enum Type {tiger = 0, cow, grass};
 enum Gender {male, female};
 enum State {stray, hunt, escape, allert, reproduce};

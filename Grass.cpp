@@ -36,12 +36,12 @@ extern GrassData grassData;
         return density;
     }
 
-    double Grass::getPositionX()
+    double Grass::getPositionX()const
     {
         return positionx;
     }
 
-    double Grass::getPositionY()
+    double Grass::getPositionY()const
     {
         return positiony;
     }

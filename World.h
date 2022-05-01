@@ -16,6 +16,7 @@ private:
     int getY(double y);
     double distance(Creature object,double x,double y);
     bool isInside(int id,double x,double y,double R);
+    bool GrassisInside(int id, double x, double y, double R);
     std::vector<std::list<int>> getVector();
     std::list<int> getList();
 
@@ -27,12 +28,9 @@ private:
     ivec.resize(m,vector<int>(n));*/
     std::vector<std::vector <std::list<int>> > table;
     std::map<int,Creature> mapCreature;
-    std::map<int,Creature>::iterator iterC;
 
     std::map<int,Grass> mapGrass;
-    std::map<int,Grass>::iterator iterG;
 
-    std::list<int>::iterator iterL;
     std::list<int>creatureList;
     std::list<int>grassList;
 public:
@@ -77,5 +75,17 @@ public:
     // find all objects of certain creature in that circle
     std::list<int> rangeSearch(double, double, double);  //center(x,y) ,R
     std::list<int> rangeSearchGrass(double, double, double);
+    std::map<int, Creature>::const_iterator creatureBegin(){
+        return mapCreature.begin();
+    }
+    std::map<int, Creature>::const_iterator creatureEnd(){
+        return mapCreature.end();
+    }
+    std::map<int, Grass>::const_iterator grassBegin(){
+        return mapGrass.begin();
+    }
+    std::map<int, Grass>::const_iterator grassEnd(){
+        return mapGrass.end();
+    }
 };
 

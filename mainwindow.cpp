@@ -3,28 +3,38 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), overlookGraph(new graph(this)), database(new D())
+    , ui(new Ui::MainWindow), overlookGraph(new graph(this)), widgets(new Widgets()), ifOnDisplay(false)
 {
     ui->setupUi(this);
-    overlookGraph->database = database;
-    database->grassWidget = ui->horizontalWidget_grass;
-    database->cowWidget = ui->horizontalWidget_cow;
-    database->tigerWidget = ui->horizontalWidget_tiger;
+
+    // overlookGraph->database = database;
+    widgets->grassWidget = ui->horizontalWidget_grass;
+    widgets->cowWidget = ui->horizontalWidget_cow;
+    widgets->tigerWidget = ui->horizontalWidget_tiger;
+
+    ui->horizontalWidget_grass->world = world;
+    ui->horizontalWidget_cow->world = world;
+    ui->horizontalWidget_tiger->world = world;
+    overlookGraph->world = world;
+    overlookGraph->widgets = widgets;
+    // grassWidget = ui->horizontalWidget_grass;
+    // cowWidget = ui->horizontalWidget_cow;
+    // tigerWidget = ui->horizontalWidget_tiger;
 
     QPixmap image("");
     double h = ui->icon_grass->height();
     double w = ui->icon_grass->width();
-    image.convertFromImage(database->grassWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+    image.convertFromImage(ui->horizontalWidget_grass->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
     ui->icon_grass->setPixmap(image);
 
     h = ui->icon_cow->height();
     w = ui->icon_cow->width();
-    image.convertFromImage(database->cowWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+    image.convertFromImage(ui->horizontalWidget_cow->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
     ui->icon_cow->setPixmap(image);
 
     h = ui->icon_tiger->height();
     w = ui->icon_tiger->width();
-    image.convertFromImage(database->tigerWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+    image.convertFromImage(ui->horizontalWidget_tiger->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
     ui->icon_tiger->setPixmap(image);
 
     QObject::connect(ui->lineEdit_grass,
@@ -39,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
                     SIGNAL(returnPressed()),
                     this,
                     SLOT(updateNumberOfTiger()));
+    QObject::connect(ui->startButton,
+                    SIGNAL(pressed()),
+                    this,
+                    SLOT(startAndStopSlot()));
     // QObject::connect(ui->actionBackground,
     //                 SIGNAL(triggered()),
     //                 this,
@@ -46,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     // auto overlookGraph = new graph(ui->scrollArea);
     ui->scrollArea->setWidget(overlookGraph);
     // this->overlookGraph = overlookGraph;
+    srand((unsigned)time(NULL));
 }
 
 MainWindow::~MainWindow()
@@ -67,7 +82,7 @@ void MainWindow::updateNumberOfGrass(){
         else
             return;
     }
-    database->grassWidget->setNumberOfCreature(sum);
+    ui->horizontalWidget_grass->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_grass->setText(QString::fromStdString(tempString));
     qDebug() << sum << endl;
@@ -87,7 +102,7 @@ void MainWindow::updateNumberOfCow(){
         else
             return;
     }
-    database->cowWidget->setNumberOfCreature(sum);
+    ui->horizontalWidget_cow->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_cow->setText(QString::fromStdString(tempString));
     qDebug() << sum << endl;
@@ -107,7 +122,7 @@ void MainWindow::updateNumberOfTiger(){
         else
             return;
     }
-    database->tigerWidget->setNumberOfCreature(sum);
+    ui->horizontalWidget_tiger->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_tiger->setText(QString::fromStdString(tempString));
     qDebug() << sum << endl;
@@ -133,9 +148,9 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     ui->verticalWidget->resize(frameGeometry().size());
     // 更新动物图片大小 为opengl窗口的1/20
 
-    database->grassWidget->setImageSize(database->grassWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
-    database->cowWidget->setImageSize(database->cowWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
-    database->tigerWidget->setImageSize(database->tigerWidget->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
 }
 
 void MainWindow::on_actionwhite_triggered(){
@@ -184,11 +199,11 @@ void MainWindow::on_actiongrass_triggered(){
     if (OpenFile != "")
     {
         //加载图像并重画
-        database->grassWidget->setCreatureImage(OpenFile);
+        ui->horizontalWidget_grass->setCreatureImage(OpenFile);
         QPixmap image("");
         double h = ui->icon_grass->height();
         double w = ui->icon_grass->width();
-        image.convertFromImage(database->grassWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+        image.convertFromImage(ui->horizontalWidget_grass->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
         ui->icon_grass->setPixmap(image);
         this->update();
     }
@@ -202,11 +217,11 @@ void MainWindow::on_actioncow_triggered(){
     if (OpenFile != "")
     {
         //加载图像并重画
-        database->cowWidget->setCreatureImage(OpenFile);
+        ui->horizontalWidget_cow->setCreatureImage(OpenFile);
         QPixmap image("");
         double h = ui->icon_cow->height();
         double w = ui->icon_cow->width();
-        image.convertFromImage(database->cowWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+        image.convertFromImage(ui->horizontalWidget_cow->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
         ui->icon_cow->setPixmap(image);
         this->update();
     }
@@ -220,11 +235,11 @@ void MainWindow::on_actiontiger_triggered(){
     if (OpenFile != "")
     {
         //加载图像并重画
-        database->tigerWidget->setCreatureImage(OpenFile);
+        ui->horizontalWidget_tiger->setCreatureImage(OpenFile);
         QPixmap image("");
         double h = ui->icon_tiger->height();
         double w = ui->icon_tiger->width();
-        image.convertFromImage(database->tigerWidget->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
+        image.convertFromImage(ui->horizontalWidget_tiger->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
         ui->icon_tiger->setPixmap(image);
         this->update();
     }
@@ -241,4 +256,114 @@ void MainWindow::on_actionSave_Image_triggered(){
     overlookGraph->ifSave = false;
     //保存
     overlookGraph->background.save(filePath);
+}
+void MainWindow::startAndStopSlot(){
+    if (!ifOnDisplay){
+        world = new World(192, 108);
+        overlookGraph->world = world;
+        double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
+        for (int i = 0; i < widgets->grassWidget->getNumberOfCreature(); ++i){
+            qDebug() << i << endl;
+            int cid = world->allocate();
+            grassAtr grassAtr = {
+                .id = cid,
+                .positionx = rand() / double(RAND_MAX) * 192,
+                .positiony = rand() / double(RAND_MAX) * 108,
+                .density = 1.0,
+                .database = world,
+                .time = currentTime
+            };
+            Grass grassTemp(grassAtr);
+            world->insert(grassTemp);
+        }
+        for (int i = 0; i < widgets->cowWidget->getNumberOfCreature(); ++i){
+            int cid = world->allocate();
+            int cgender = (int) rand() % 2;
+            if (cgender == 0){
+                creatureAtr cowAtr = {
+                    .id = cid,
+                    .type = cow,
+                    .energy = 100,
+                    .gender = male,
+                    .age = rand() / double(RAND_MAX) * 15,
+                    .positionx = rand() / double(RAND_MAX) * 192,
+                    .positiony = rand() / double(RAND_MAX) * 108,
+                    .database = world,
+                    .time = currentTime
+                };
+                Creature cowTemp(cowAtr);
+                world->insert(cowTemp);
+            }
+            else{
+                creatureAtr cowAtr = {
+                    .id = cid,
+                    .type = cow,
+                    .energy = 100,
+                    .gender = female,
+                    .age = rand() / double(RAND_MAX) * 15,
+                    .positionx = rand() / double(RAND_MAX) * 192,
+                    .positiony = rand() / double(RAND_MAX) * 108,
+                    .database = world,
+                    .time = currentTime
+                };
+                Creature cowTemp(cowAtr);
+                world->insert(cowTemp);
+            }
+        }
+        for (int i = 0; i < widgets->tigerWidget->getNumberOfCreature(); ++i){
+            int cid = world->allocate();
+            int cgender = (int) rand() % 2;
+            if (cgender == 0){
+                creatureAtr tigerAtr = {
+                    .id = cid,
+                    .type = tiger,
+                    .energy = 100,
+                    .gender = male,
+                    .age = rand() / double(RAND_MAX) * 15,
+                    .positionx = rand() / double(RAND_MAX) * 192,
+                    .positiony = rand() / double(RAND_MAX) * 108,
+                    .database = world,
+                    .time = currentTime
+                };
+                Creature tigerTemp(tigerAtr);
+                world->insert(tigerTemp);
+            }
+            else{
+                creatureAtr tigerAtr = {
+                    .id = cid,
+                    .type = tiger,
+                    .energy = 100,
+                    .gender = female,
+                    .age = rand() / double(RAND_MAX) * 15,
+                    .positionx = rand() / double(RAND_MAX) * 192,
+                    .positiony = rand() / double(RAND_MAX) * 108,
+                    .database = world,
+                    .time = currentTime
+                };
+                Creature tigerTemp(tigerAtr);
+                world->insert(tigerTemp);
+            }
+        }
+    }
+    timer = new QTimer();
+    timer->setInterval(1000);
+    
+    QObject::connect(timer,
+                    SIGNAL(timeout()),
+                    this,
+                    SLOT(updateWorld()));
+
+    ifOnDisplay = !ifOnDisplay;
+    overlookGraph->ifOnDisplay = !overlookGraph->ifOnDisplay;
+    // qDebug() << "fuck1" << endl;
+    overlookGraph->repaint();
+    timer->start();
+}
+
+void MainWindow::updateWorld(){
+    
+    double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
+    world->updateAll(currentTime);
+    overlookGraph->repaint();
+    // qDebug() << "fuck2" << endl;
 }

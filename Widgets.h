@@ -1,10 +1,10 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+#ifndef WIDGETS_H
+#define WIDGETS_H
 #include "grassUI.h"
 #include "cowUI.h"
 #include "tigerUI.h"
 
-struct D{
+struct Widgets{
     grassUI* grassWidget;
     cowUI* cowWidget;
     tigerUI* tigerWidget;

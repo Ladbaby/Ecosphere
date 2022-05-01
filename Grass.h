@@ -22,8 +22,8 @@ public:
     Grass(grassAtr);
     void update(double);
     double getDensity();
-    double getPositionX();
-    double getPositionY();
+    double getPositionX()const;
+    double getPositionY()const;
     double getID();
     void setDensity(double Density);
 private:

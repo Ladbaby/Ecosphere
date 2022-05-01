@@ -1,50 +1,50 @@
 #include"Parameter.h"
 
 GrassData grassData={
-    .energyAsFood  = 1,
-    .maxDensity    = 1,
-    .baseGrowSpeed = 1,
+    .energyAsFood  = 100,
+    .maxDensity    = 1000,
+    .baseGrowSpeed = 100,
 };
 
 SpecieData cowData={
-    .adultAge           = 1,
-    .aveAge             = 1,
-    .aveBaseSize        = 1,
-    .energyFactor       = 1,
+    .adultAge           = 7,
+    .aveAge             = 9,
+    .aveBaseSize        = 10,
+    .energyFactor       = 10,
     .minReproduceEnergy = 1,
-    .reproduceCost      = 1,
+    .reproduceCost      = 100,
     .moveCost           = 1,
-    .baseCost           = 1,
-    .valueAsFood        = 1,
-    .viewAngle          = 1,
-    .viewDistance       = 1,
-    .allertDistance     = 1,
+    .baseCost           = 10,
+    .valueAsFood        = 10,
+    .viewAngle          = 4 / 3 * PI,
+    .viewDistance       = 10,
+    .allertDistance     = 5,
     .allertTime         = 1,
     .wanderSpeed        = 1,
-    .baseRunSpeed       = 1,
+    .baseRunSpeed       = 2,
     .foods              = {grass},
     .predators          = {tiger},
 };
 
-SpecieData tigherData={
-    .adultAge           = 1,
-    .aveAge             = 1,
-    .aveBaseSize        = 1,
-    .energyFactor       = 1,
+SpecieData tigerData={
+    .adultAge           = 7,
+    .aveAge             = 9,
+    .aveBaseSize        = 10,
+    .energyFactor       = 10,
     .minReproduceEnergy = 1,
-    .reproduceCost      = 1,
+    .reproduceCost      = 100,
     .moveCost           = 1,
-    .baseCost           = 1,
+    .baseCost           = 10,
     .valueAsFood        = 1,
-    .viewAngle          = 1,
-    .viewDistance       = 1,
+    .viewAngle          = PI,
+    .viewDistance       = 100,
     .allertDistance     = 1,
     .allertTime         = 1,
     .wanderSpeed        = 1,
-    .baseRunSpeed       = 1,
+    .baseRunSpeed       = 2.2,
     .foods              = {cow},
     .predators          = {},
 };
 
-SpecieData specieDataList[2]={tigherData, cowData};
+SpecieData specieDataList[2]={tigerData, cowData};
 

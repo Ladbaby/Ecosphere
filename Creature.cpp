@@ -9,7 +9,7 @@
 #include<algorithm>
 
 
-double PI=2*acos(0.0);
+// double PI=2*acos(0.0);
 
 extern GrassData grassData;
 extern SpecieData specieDataList[2];
@@ -96,7 +96,7 @@ extern SpecieData specieDataList[2];
 
     State Creature::getState() {return state;}
 
-    Type Creature::getType() {return type;}
+    Type Creature::getType() const {return type;}
 
     double Creature::getAge() {return age;}
 
@@ -106,9 +106,9 @@ extern SpecieData specieDataList[2];
 
     double Creature::getEnergy() {return energy;}
 
-    double Creature::getPositionX() {return positionx;}
+    double Creature::getPositionX() const {return positionx;}
     
-    double Creature::getPositionY() {return positiony;}
+    double Creature::getPositionY() const {return positiony;}
 
     int Creature::getID() {return id;}
 

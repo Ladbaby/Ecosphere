@@ -30,7 +30,7 @@ set(PROJECT_SOURCES
     tigerUI.h
     graph.h
     graph.cpp
-    database.h
+    Widgets.h
     Creature.h
     Creature.cpp
     Grass.h

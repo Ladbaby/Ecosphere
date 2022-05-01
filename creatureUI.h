@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <string>
 #include <QDebug>
+#include "World.h"
 
 class creatureUI : public QWidget{
     Q_OBJECT
@@ -42,6 +43,7 @@ public:
     QSize getImageSize(){
         return imageSize;
     }
+    World* world;
 private:
     int numberOfCreature;
     QImage creatureImage;

@@ -36,7 +36,7 @@ public:
     // control creature's action and state change according to current state and environment
     State getState();
 
-    Type getType();
+    Type getType() const;
 
     double getAge();
 
@@ -46,9 +46,9 @@ public:
 
     double getEnergy();
 
-    double getPositionX();
+    double getPositionX() const;
 
-    double getPositionY();
+    double getPositionY() const;
     
     void setCoupleID(int coupleID);
 

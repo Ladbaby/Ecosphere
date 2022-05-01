@@ -9,7 +9,9 @@
 #include "graph.h"
 #include <QFileDialog>
 #include <QGraphicsView>
-// #include "database.h"
+#include <QTimer>
+#include "Widgets.h"
+#include <chrono>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,13 +24,19 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    D *database;
+    Widgets *widgets;
+    World *world;
+    // grassUI *grassWidget;
+    // cowUI *cowWidget;
+    // tigerUI * tigerWidget;
 
 private:
     Ui::MainWindow *ui;
     std::string trim(std::string str);
     void resizeEvent(QResizeEvent *event);
     graph *overlookGraph;
+    QTimer *timer;
+    bool ifOnDisplay;
 
 private slots:
     void updateNumberOfGrass();
@@ -43,5 +51,7 @@ private slots:
     void on_actioncow_triggered();
     void on_actiontiger_triggered();
     void on_actionSave_Image_triggered();
+    void startAndStopSlot();
+    void updateWorld();
 };
 #endif // MAINWINDOW_H

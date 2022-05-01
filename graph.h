@@ -9,7 +9,11 @@
 #include <QDebug>
 #include <stdlib.h>
 #include <time.h>
-#include "database.h"
+#include "Widgets.h"
+#include "World.h"
+#include "Creature.h"
+#include "Grass.h"
+// #include "mainwindow.h"
 
 //自定义图像显示区域的QOpenGLWidget
 class graph : public QOpenGLWidget
@@ -30,7 +34,9 @@ public:
     QColor backgroundColor = Qt::white;
     //用户自定义的背景图片
     QImage customizedImage;
-    D *database;
+    Widgets *widgets;
+    World *world;
+    // Ui::MainWindow *ui;
     //判定是否有customizedImage
     bool ifImage = false;
     //判定鼠标是否按下并拖拽
@@ -45,6 +51,7 @@ public:
     bool ifPoint = false;
     //判定是否渲染的为第一帧，用以初始化viewPort1
     bool firstRender = true;
+    bool ifOnDisplay = false;
 
 private:
     //把paintEvent里重复的代码抽象出来
@@ -53,7 +60,7 @@ private:
     QPointF pressPosition;
     //记录图像窗口的坐标数字和像素之间的变换倍率
     //每1个坐标数字对应于scale个像素
-    int scale = 80;
+    int scale = 10;
 
 public slots:
     //响应鼠标事件，实现拖动图像

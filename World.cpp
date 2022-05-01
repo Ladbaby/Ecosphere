@@ -26,17 +26,27 @@
 
     bool World::isInside(int id,double x,double y,double R)
     {
-        if(mapCreature.count(id)==1)
+        auto it=mapCreature.find(id);
+        if(it!=mapCreature.end())
         {
-            iterC=mapCreature.find(id);
-
-            double distance=sqrt( pow((iterC->second).getPositionX()-x,2)+pow((iterC->second).getPositionY()-y,2) );
+            double distance=sqrt( pow((it->second).getPositionX()-x,2)+pow((it->second).getPositionY()-y,2) );
             if(distance<=R)
             return true;
         }
         return false;
     }
 
+    bool World::GrassisInside(int id,double x,double y,double R)
+    {
+        auto it=mapGrass.find(id);
+        if(it!=mapGrass.end())
+        {
+            double distance=sqrt( pow((it->second).getPositionX()-x,2)+pow((it->second).getPositionY()-y,2) );
+            if(distance<=R)
+            return true;
+        }
+        return false;
+    }
 
     std::vector<std::list<int>> World::getVector()
     {
@@ -54,36 +64,52 @@
     {
         WorldWidth=x;
         WorldHeight=y;
-        for (int height = 0; height < WorldHeight; height++)
+        for (int width = 0; width < WorldWidth; width++)
         {
             table.push_back(getVector());
         }
-        for(int height = 0; height < WorldHeight; height++)
+        for(int width = 0; width < WorldWidth; width++)
         {
-            for (int width = 0; width < WorldWidth; width++ )
+            for (int height = 0; height < WorldHeight; height++ )
             {
-                table[height].push_back(getList());
+                table[width].push_back(getList());
             }
         }
     }
 
     void World::updateAll(double time)
     {
-        Creature objectC;
-        Grass objectG;
-        for(int i=1;i<=ID;i++)
+        for(auto iterC=mapCreature.begin();iterC!=mapCreature.end();)
         {
-            if(search(ID,objectC))
+            int id=iterC->first;
+            int x=getX(iterC->second.getPositionX());
+            int y=getY(iterC->second.getPositionY());
+            table[x][y].remove(id);
+            if((iterC->second).update(time))
             {
-                objectC.update(time);
+                x=getX(iterC->second.getPositionX());
+                y=getY(iterC->second.getPositionY());
+                table[x][y].push_back(iterC->first);
+                iterC++;
             }
-            else if(search(ID,objectG))
+            else
             {
-                objectG.update(time);
+                iterC=mapCreature.erase(iterC);
             }
-            else 
-            continue;
+
         }
+        for(auto iterG=mapGrass.begin();iterG!=mapGrass.end();iterG++)
+        {
+            int id=iterG->first;
+            int x=getX(iterG->second.getPositionX());
+            int y=getY(iterG->second.getPositionY());
+            table[x][y].remove(id);
+            (iterG->second).update(time);
+            x=getX(iterG->second.getPositionX());
+            y=getY(iterG->second.getPositionY());
+            table[x][y].push_back(iterG->first);
+        }
+
     }
     
     void World::setWorldWidth( int width)
@@ -116,11 +142,21 @@
     {
         Grass object;
         Creature objectC;
-        if( search(id, object)||search(id,objectC) )
+        auto iterC=mapCreature.find(id);
+        auto iterG=mapGrass.find(id);
+        if(iterC!=mapCreature.end())
         {
-            int x=getX(object.getPositionX());
-            int y=getY(object.getPositionY());
+            int x=getX(iterC->second.getPositionX());
+            int y=getY(iterC->second.getPositionY());
             table[x][y].remove(id);
+            mapCreature.erase(iterC);
+        }
+        if(iterG!=mapGrass.end())
+        {
+            int x=getX(iterG->second.getPositionX());
+            int y=getY(iterG->second.getPositionY());
+            table[x][y].remove(id);
+            mapGrass.erase(iterG);
         }
     }
 
@@ -154,9 +190,9 @@
 
     bool World::search(int id,Creature &object)
     {
-        if(mapCreature.count(id)==1)
+        auto iterC=mapCreature.find(id);
+        if(iterC!=mapCreature.end())
         {
-            iterC=mapCreature.find(id);
             object=iterC->second;
             return true;
         }
@@ -165,9 +201,9 @@
 
     bool World::search(int id,Grass &object)
     {
-        if(mapGrass.count(id)==1)
+        auto iterG=mapGrass.find(id);
+        if(iterG!=mapGrass.end())
         {
-            iterG=mapGrass.find(id);
             object=iterG->second;
             return true;
         }
@@ -199,7 +235,7 @@
         {
             for(int j=y_bottom;j<y_up;j++)
             {
-                for(iterL=table[i][j].begin(); iterL !=table[i][j].end();iterL++)
+                for(auto iterL=table[i][j].begin(); iterL !=table[i][j].end();iterL++)
                 {
                     int id=*iterL;
                     if(isInside(id,x,y,r))
@@ -229,10 +265,10 @@
         {
             for(int j=y_bottom;j<y_up;j++)
             {
-                for(iterL=table[i][j].begin(); iterL !=table[i][j].end();iterL++)
+                for(auto iterL=table[i][j].begin(); iterL !=table[i][j].end();iterL++)
                 {
                     int id=*iterL;
-                    if(isInside(id,x,y,r))
+                    if(GrassisInside(id,x,y,r))
                     {
                         grassList.push_back(id);
                     }
