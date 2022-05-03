@@ -242,8 +242,6 @@
                     {
                         creatureList.push_back(id);
                     }
-                    else
-                        continue;
                 }
             }
         }
