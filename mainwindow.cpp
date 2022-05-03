@@ -263,7 +263,7 @@ void MainWindow::startAndStopSlot(){
         overlookGraph->world = world;
         double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
         for (int i = 0; i < widgets->grassWidget->getNumberOfCreature(); ++i){
-            qDebug() << i << endl;
+            // qDebug() << i << endl;
             int cid = world->allocate();
             grassAtr grassAtr = {
                 .id = cid,
@@ -363,6 +363,7 @@ void MainWindow::startAndStopSlot(){
 void MainWindow::updateWorld(){
     
     double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
+    // qDebug() << currentTime << endl;
     world->updateAll(currentTime);
     overlookGraph->repaint();
     // qDebug() << "fuck2" << endl;

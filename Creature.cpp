@@ -7,6 +7,7 @@
 #include<time.h>
 #include<math.h>
 #include<algorithm>
+#include<iostream>
 
 
 // double PI=2*acos(0.0);
@@ -38,35 +39,37 @@ extern SpecieData specieDataList[2];
         positiony=atr.positiony;
 
         database=atr.database;
-        double lastUpdateTime=atr.time;
-        double lastChangeStateTime=atr.time;
+        lastUpdateTime=atr.time;
+        lastChangeStateTime=atr.time;
     // random from specieData
-        double baseSize=((getRandom()*0.4-0.2)+1)*specieDataList[type].aveBaseSize;
-        double baseRunSpeed=((getRandom()*0.4-0.2)+1)*specieDataList[type].baseRunSpeed;
+        baseSize=((getRandom()*0.4-0.2)+1)*specieDataList[type].aveBaseSize;
+        baseRunSpeed=((getRandom()*0.4-0.2)+1)*specieDataList[type].baseRunSpeed;
     // calculated
-        double sizeFactor=std::max(double(1), sqrt(age/specieDataList[type].adultAge));
-        double size=baseSize*sizeFactor;
+        sizeFactor=std::max(double(1), sqrt(age/specieDataList[type].adultAge));
+        size=baseSize*sizeFactor;
 
     // whatever
-        State state=stray;
+        state=stray;
 
-        double direction=fmod(getRandom()*10*PI,2*PI);
-        double wanderDestinationx=getRandom()*(database->getWorldWidth());
-        double wanderDestinationy=getRandom()*(database->getWorldHeight());
+        direction=fmod(getRandom()*10*PI,2*PI);
+        wanderDestinationx=getRandom()*(database->getWorldWidth());
+        wanderDestinationy=getRandom()*(database->getWorldHeight());
 
-        int target=0;
-        bool grassTarget=false;
-        std::set<int> predatorset;
+        target=0;
+        grassTarget=false;
+        predatorset = {};
 
-        int couple=0;
-        std::vector<int> potentialCouples;
+        couple=0;
+        potentialCouples = {};
 
-        std::vector<int> potentialPrey;   
-        std::vector<int> potentialGrassPrey;
+        potentialPrey = {};   
+        potentialGrassPrey = {};
     }
 
     bool Creature::update(double time)
-    {
+    {   
+        qDebug() << lastUpdateTime << endl;
+        qDebug() << time << endl;
         if(judgeDeath())
         {return false;}
 
@@ -234,8 +237,23 @@ extern SpecieData specieDataList[2];
                 speed=specieDataList[type].baseRunSpeed;
             }
             double dist=speed*dt;
-            positionx+=dist*cos(direction);
-            positiony+=dist*sin(direction);
+            double deltaX=dist*cos(direction);
+            double deltaY=dist*sin(direction);
+            
+            if(positionx+deltaX>=database->getWorldWidth())
+            {positionx=database->getWorldWidth();}
+            else if (positionx+deltaX<=0)
+            {positionx=0;}
+            else
+            {positionx+=deltaX;}
+            
+            if(positiony+deltaY>=database->getWorldHeight())
+            {positiony=database->getWorldHeight();}
+            else if(positiony+deltaY<=0)
+            {positiony=0;}
+            else
+            {positiony+=deltaY;}
+
             energy=energy-specieDataList[type].baseCost*dt-specieDataList[type].moveCost*dist;
             return escape;
         }
@@ -331,6 +349,9 @@ extern SpecieData specieDataList[2];
         if(canRun())
         {speed=specieDataList[type].baseRunSpeed;}
         double movedist=speed*dt;
+        qDebug() <<"move distance:" << endl;
+        qDebug() << movedist << endl;
+        qDebug() << dt << endl;
         if(judgeHuntSuccess(movedist))
         {
             double actualMoveDist=calculateDistance(tempTarget.getPositionY(), tempTarget.getPositionX());
@@ -472,6 +493,9 @@ extern SpecieData specieDataList[2];
         
         double moveDistance=specieDataList[type].wanderSpeed*dt;
         varyDirection(moveDistance);
+        qDebug() <<"move distance:" << endl;
+        qDebug() << moveDistance << endl;
+        qDebug() << dt << endl;
         positionx+=moveDistance*cos(direction);
         positiony+=moveDistance*sin(direction);
         energy=energy-specieDataList[type].baseCost*dt-moveDistance*specieDataList[type].moveCost;

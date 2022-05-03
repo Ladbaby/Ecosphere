@@ -4,6 +4,7 @@
 #include<optional>
 #include"World.h"
 #include"Parameter.h"
+#include <qdebug.h>
 
 struct foodCandidate
 {
