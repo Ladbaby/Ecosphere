@@ -55,8 +55,32 @@ Creature::Creature(creatureAtr atr)
 
     double wanderDirection=fmod(getRandom()*10*PI, 2*PI);
     double actualWanderDistance=getRandom()*specieDataList[type].wanderDistance;
-    wanderDestinationx = positionx+cos(wanderDirection)*actualWanderDistance;
-    wanderDestinationy = positiony+sin(wanderDirection)*actualWanderDistance;
+    double tempX=positionx+cos(wanderDirection)*actualWanderDistance;
+    double tempY=positiony+sin(wanderDirection)*actualWanderDistance;
+    if(tempX<0)
+    {
+        wanderDestinationx=0;
+    }
+    else if (tempX>database->getWorldWidth())
+    {
+        wanderDestinationx=database->getWorldWidth();
+    }
+    else
+    {
+        wanderDestinationx=tempX;
+    }
+    if(tempY<0)
+    {
+        wanderDestinationy=0;
+    }
+    else if(tempY>database->getWorldHeight())
+    {
+        wanderDestinationy=database->getWorldHeight();
+    }
+    else
+    {
+        wanderDestinationy=tempY;
+    }
 
     target = 0;
     grassTarget = false;
@@ -259,11 +283,11 @@ State Creature::escapeStateAction(double time)
         double deltaX = dist * cos(direction);
         double deltaY = dist * sin(direction);
 
-        if (positionx + deltaX >= database->getWorldWidth())
+        if (positionx + deltaX > database->getWorldWidth())
         {
             positionx = database->getWorldWidth();
         }
-        else if (positionx + deltaX <= 0)
+        else if (positionx + deltaX < 0)
         {
             positionx = 0;
         }
@@ -272,11 +296,11 @@ State Creature::escapeStateAction(double time)
             positionx += deltaX;
         }
 
-        if (positiony + deltaY >= database->getWorldHeight())
+        if (positiony + deltaY > database->getWorldHeight())
         {
             positiony = database->getWorldHeight();
         }
-        else if (positiony + deltaY <= 0)
+        else if (positiony + deltaY < 0)
         {
             positiony = 0;
         }
@@ -790,8 +814,32 @@ void Creature::varyDirection(double movedist)
     {
         double wanderDirection=fmod(getRandom()*10*PI, 2*PI);
         double actualWanderDistance=getRandom()*specieDataList[type].wanderDistance;
-        wanderDestinationx = positionx+cos(wanderDirection)*actualWanderDistance;
-        wanderDestinationy = positiony+sin(wanderDirection)*actualWanderDistance;
+        double tempX=positionx+cos(wanderDirection)*actualWanderDistance;
+        double tempY=positiony+sin(wanderDirection)*actualWanderDistance;
+        if(tempX<0)
+        {
+            wanderDestinationx=0;
+        }
+        else if (tempX>database->getWorldWidth())
+        {
+            wanderDestinationx=database->getWorldWidth();
+        }
+        else
+        {
+            wanderDestinationx=tempX;
+        }
+        if(tempY<0)
+        {
+            wanderDestinationy=0;
+        }
+        else if(tempY>database->getWorldHeight())
+        {
+            wanderDestinationy=database->getWorldHeight();
+        }
+        else
+        {
+            wanderDestinationy=tempY;
+        }
         direction = calculateDirection(wanderDestinationy, wanderDestinationx);
     }
 }

@@ -11,12 +11,26 @@
 //Downward integration
     int World::getX(double x)
     {
-        return (int)floor(x);
+        if(int(x)==WorldWidth)
+        {
+            return int(x)-1;
+        }
+        else
+        {
+            return (int)floor(x);
+        }
     }
 
     int World::getY(double y)
     {
-        return (int)floor(y);
+        if(int(y)==WorldHeight)
+        {
+            return int(y)-1;
+        }
+        else
+        {
+            return (int)floor(y);
+        }
     }
 
     double World::distance(Creature object,double x,double y)
@@ -96,7 +110,6 @@
             {
                 iterC=mapCreature.erase(iterC);
             }
-
         }
         for(auto iterG=mapGrass.begin();iterG!=mapGrass.end();iterG++)
         {
