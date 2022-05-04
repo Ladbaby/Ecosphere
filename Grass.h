@@ -21,10 +21,10 @@ public:
     Grass();
     Grass(grassAtr);
     void update(double);
-    double getDensity();
+    double getDensity()const;
     double getPositionX()const;
     double getPositionY()const;
-    double getID();
+    double getID()const;
     void setDensity(double Density);
 private:
     double growthFunction(double);

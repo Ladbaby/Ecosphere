@@ -32,6 +32,7 @@ struct SpecieData
     double allertDistance;
     double allertTime;
     double wanderSpeed;
+    double wanderDistance;
     double baseRunSpeed;
     std::set<Type> foods;
     std::set<Type> predators;

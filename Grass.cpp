@@ -31,7 +31,7 @@ extern GrassData grassData;
         }
     }
 
-    double Grass::getDensity()
+    double Grass::getDensity()const
     {
         return density;
     }
@@ -45,7 +45,7 @@ extern GrassData grassData;
     {
         return positiony;
     }
-    double Grass::getID()
+    double Grass::getID()const
     {
         return id;
     }

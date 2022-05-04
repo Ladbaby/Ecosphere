@@ -168,46 +168,52 @@
 
     void World::updateGrassDensity(int id,double density)
     {
-        Grass object;
-        search(id,object);
-        object.setDensity(density);
+        auto grassPair=mapGrass.find(id);
+        if(grassPair!=mapGrass.end())
+        {
+            grassPair->second.setDensity(density);
+        }
     }
 
     void World::updateCreatureEnergy(int id,double energy)
     {
-        Creature object;
-        search(id,object);
-        object.setEnergy(energy);
+        auto creaturePair=mapCreature.find(id);
+        if(creaturePair!=mapCreature.end())
+        {
+            creaturePair->second.setEnergy(energy);
+        }
     }
 
-    void World::updateCouple(int id,int coupleID,State S)
+    void World::updateCouple(int id,int coupleID, State S)
     {
-        Creature object;
-        search(id,object);
-        object.setCoupleID(coupleID);
-        object.setState(S);
+        auto creaturePair=mapCreature.find(id);
+        if(creaturePair!=mapCreature.end())
+        {
+            creaturePair->second.setCoupleID(coupleID);
+            creaturePair->second.setState(S);
+        }
     }
 
-    bool World::search(int id,Creature &object)
+    const Creature* World::search(int id)
     {
         auto iterC=mapCreature.find(id);
         if(iterC!=mapCreature.end())
         {
-            object=iterC->second;
-            return true;
+            // Creature object=iterC->second;
+            return &(iterC->second);
         }
-        return false;
+        return nullptr;
     }
 
-    bool World::search(int id,Grass &object)
+    const Grass* World::searchGrass(int id)
     {
         auto iterG=mapGrass.find(id);
         if(iterG!=mapGrass.end())
         {
-            object=iterG->second;
-            return true;
+            // Grass object=iterG->second;
+            return &(iterG->second);
         }
-        return false;
+        return nullptr;
     }
 
     int World::getWorldWidth()

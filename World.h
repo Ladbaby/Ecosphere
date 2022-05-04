@@ -65,8 +65,8 @@ public:
     // given the creature id, set its couple=coupleID and state=s.
     void updateCouple(int, int, State);
 
-    bool search(int, Creature&);
-    bool search(int, Grass&);
+    const Creature* search(int);
+    const Grass* searchGrass(int);
 
     int getWorldWidth();
     int getWorldHeight();

@@ -35,17 +35,17 @@ public:
     bool update(double);
     // If the creature is dead, return false
     // control creature's action and state change according to current state and environment
-    State getState();
+    State getState() const;
 
     Type getType() const;
 
-    double getAge();
+    double getAge() const;
 
-    Gender getGender();
+    Gender getGender() const;
 
-    double getDirection();
+    double getDirection() const;
 
-    double getEnergy();
+    double getEnergy() const;
 
     double getPositionX() const;
 
@@ -57,9 +57,9 @@ public:
 
     void setEnergy( double Energy);
 
-    int getID();
+    int getID() const;
     
-    bool canRun();
+    bool canRun() const;
 private:
     bool judgeDeath();
 
