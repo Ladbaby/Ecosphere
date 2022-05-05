@@ -23,7 +23,7 @@ private:
     int WorldWidth;
     int WorldHeight;
 
-    int ID=0;
+    int ID;
     /*vector<vector <int> > ivec;
     ivec.resize(m,vector<int>(n));*/
     std::vector<std::vector <std::list<int>> > table;

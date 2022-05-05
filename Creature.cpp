@@ -39,8 +39,8 @@ Creature::Creature(creatureAtr atr)
     positiony = atr.positiony;
 
     database = atr.database;
-    lastUpdateTime = atr.time;
-    lastChangeStateTime = atr.time;
+    lastUpdateTime = -1;
+    lastChangeStateTime = -1;
     // random from specieData
     baseSize = ((getRandom() * 0.4 - 0.2) + 1) * specieDataList[type].aveBaseSize;
     baseRunSpeed = ((getRandom() * 0.4 - 0.2) + 1) * specieDataList[type].baseRunSpeed;
@@ -95,6 +95,12 @@ Creature::Creature(creatureAtr atr)
 
 bool Creature::update(double time)
 {
+    if(lastUpdateTime==-1)
+    {
+        lastUpdateTime=time;
+        lastChangeStateTime=time;
+        return true;
+    }
     // qDebug() << lastUpdateTime << endl;
     // qDebug() << time << endl;
     if (judgeDeath())
@@ -170,6 +176,36 @@ bool Creature::canRun() const
     else
     {
         return false;
+    }
+}
+
+void Creature::move(double movedist)
+{
+    double tempX=positionx+movedist*cos(direction);
+    double tempY=positiony+movedist*sin(direction);
+    if(tempX<0)
+    {
+        positionx=0;
+    }
+    else if(tempX>database->getWorldWidth())
+    {
+        positionx=database->getWorldWidth();
+    }
+    else
+    {
+        positionx=tempX;
+    }
+    if(tempY<0)
+    {
+        positiony=0;
+    }
+    else if(tempY>database->getWorldHeight())
+    {
+        positiony=database->getWorldHeight();
+    }
+    else
+    {
+        positiony=tempY;
     }
 }
 
@@ -280,34 +316,8 @@ State Creature::escapeStateAction(double time)
             speed = specieDataList[type].baseRunSpeed;
         }
         double dist = speed * dt;
-        double deltaX = dist * cos(direction);
-        double deltaY = dist * sin(direction);
 
-        if (positionx + deltaX > database->getWorldWidth())
-        {
-            positionx = database->getWorldWidth();
-        }
-        else if (positionx + deltaX < 0)
-        {
-            positionx = 0;
-        }
-        else
-        {
-            positionx += deltaX;
-        }
-
-        if (positiony + deltaY > database->getWorldHeight())
-        {
-            positiony = database->getWorldHeight();
-        }
-        else if (positiony + deltaY < 0)
-        {
-            positiony = 0;
-        }
-        else
-        {
-            positiony += deltaY;
-        }
+        move(dist);
 
         energy = energy - specieDataList[type].baseCost * dt - specieDataList[type].moveCost * dist;
         return escape;
@@ -456,8 +466,8 @@ State Creature::huntStateAction(double time)
     }
     else
     {
-        positionx += movedist * cos(direction);
-        positiony += movedist * sin(direction);
+        double dist = speed * dt;
+        move(dist);
         energy = energy - specieDataList[type].baseCost * dt - specieDataList[type].moveCost * movedist;
         return hunt;
     }
@@ -520,7 +530,19 @@ State Creature::reproduceStateAction(double time)
         double movedist = specieDataList[type].wanderSpeed * dt;
         if (movedist < calculateDistance(tempCouple->getPositionY(), tempCouple->getPositionX()))
         {
-            creatureAtr childAtr;
+            double childBaseSize = ((getRandom() * 0.4 - 0.2) + 1) * specieDataList[type].aveBaseSize;
+            double childSizeFactor = std::max(double(1), sqrt(1 / specieDataList[type].adultAge));
+            double childSize = childBaseSize * childSizeFactor;
+            creatureAtr childAtr={
+                .id=database->allocate(),
+                .type=type,
+                .energy=specieDataList[type].energyFactor*childSize,
+                .gender=(getRandom()>0.5? female : male),
+                .age=1,
+                .positionx=(positionx+tempCouple->getPositionX())/2,
+                .positiony=(positiony+tempCouple->getPositionY())/2,
+                .database=database
+            };
             Creature child(childAtr);
             database->insert(child);
             database->updateCreatureEnergy(couple, tempCouple->getEnergy() - specieDataList[type].reproduceCost);
@@ -530,8 +552,7 @@ State Creature::reproduceStateAction(double time)
         }
         else
         {
-            positionx += movedist * cos(direction);
-            positiony += movedist * sin(direction);
+            move(movedist);
             energy = energy - specieDataList[type].baseCost * dt - specieDataList[type].moveCost * movedist;
             return reproduce;
         }
@@ -603,8 +624,7 @@ State Creature::wanderStateAction(double time)
     // qDebug() <<"move distance:" << endl;
     // qDebug() << moveDistance << endl;
     // qDebug() << dt << endl;
-    positionx += moveDistance * cos(direction);
-    positiony += moveDistance * sin(direction);
+    move(moveDistance);
     energy = energy - specieDataList[type].baseCost * dt - moveDistance * specieDataList[type].moveCost;
     return stray;
 }

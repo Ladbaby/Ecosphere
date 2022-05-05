@@ -4,8 +4,8 @@
 graph::graph(QWidget *parent) : QOpenGLWidget(parent)
 {
     
-    customizedImage.load(":/doge.gif");
-    ifImage == true;
+    // customizedImage.load(":/doge.gif");
+    // ifImage == true;
 }
 
 void graph::paintEvent(QPaintEvent *event){
@@ -191,31 +191,21 @@ void graph::paintGraph(QPainter &painter){
                          QPointF(0, this->viewPort1.y() * this->height() * (-1)));
     }
     
-    // QImage imageScaled = database->grassWidget->getCreatureImage().scaled(this->width() / 2,this->height() / 2,Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
     if (ifOnDisplay){
-        for (auto it = world->creatureBegin(); it != world->creatureEnd(); it++){
-            if(it->second.getType() == tiger){
-                painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale, it->second.getPositionY() * scale * (-1)), widgets->tigerWidget->getImageSize()), widgets->tigerWidget->getCreatureImage());
-            }
-            else if (it->second.getType() == cow){
-                painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale, it->second.getPositionY() * scale * (-1)), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
-            }
-        }
         for (auto it = world->grassBegin(); it != world->grassEnd(); it++){
-            painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale, it->second.getPositionY() * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
+            painter.drawImage(QRectF(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
+        }
+        for (auto it = world->creatureBegin(); it != world->creatureEnd(); it++){
+            if (it->second.getType() == cow){
+                painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
+            }
+            else if(it->second.getType() == tiger){
+                painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->tigerWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->tigerWidget->getImageSize().height() / 2) * (-1)), widgets->tigerWidget->getImageSize()), widgets->tigerWidget->getCreatureImage());
+            }
         }
     }
     
-    // // 画grass
-    // for (int i = 0; i < widgets->grassWidget->getNumberOfCreature(); ++i){ 
-    //     painter.drawImage(QRectF(QPointF(rand() / double(RAND_MAX) * -1000, rand() / double(RAND_MAX) * 1000), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
-    // }
-    // for (int i = 0; i < widgets->cowWidget->getNumberOfCreature(); ++i){ 
-    //     painter.drawImage(QRectF(QPointF(rand() / double(RAND_MAX) * -1000, rand() / double(RAND_MAX) * 1000), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
-    // }
-    // for (int i = 0; i < widgets->tigerWidget->getNumberOfCreature(); ++i){ 
-    //     painter.drawImage(QRectF(QPointF(rand() / double(RAND_MAX) * -1000, rand() / double(RAND_MAX) * 1000), widgets->tigerWidget->getImageSize()), widgets->tigerWidget->getCreatureImage());
-    // }
+    
 }
 
 void graph::mousePressEvent(QMouseEvent *event){
@@ -249,6 +239,8 @@ void graph::wheelEvent(QWheelEvent *event){
     if(scale <= 0.3){
         scale -= event->angleDelta().y() / 120;
     }
+    widgets->grassWidget->setImageSize(widgets->grassWidget->getImageSize().scaled(scale, scale, Qt::KeepAspectRatioByExpanding));
+
     //及时刷新图像
     this->update();
 }

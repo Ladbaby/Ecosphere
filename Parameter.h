@@ -14,6 +14,7 @@ struct GrassData
     double energyAsFood;
     double maxDensity;
     double baseGrowSpeed;
+    double initialAvgDensity;
 };
 
 struct SpecieData

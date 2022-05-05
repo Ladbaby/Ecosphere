@@ -4,7 +4,6 @@
 #include<optional>
 #include"World.h"
 #include"Parameter.h"
-#include <qdebug.h>
 
 struct foodCandidate
 {
@@ -24,7 +23,6 @@ struct creatureAtr
     double positiony;
 
     World* database;
-    double time;
 };
 
 class Creature
@@ -61,6 +59,8 @@ public:
     
     bool canRun() const;
 private:
+    void move(double);
+
     bool judgeDeath();
 
     bool detectPredator(State);

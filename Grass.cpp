@@ -13,10 +13,15 @@ extern GrassData grassData;
         positiony=atr.positiony;
         density=atr.density;
         database=atr.database;
-        lastUpdateTime=atr.time;
+        lastUpdateTime=-1;
     }
     void Grass::update(double time)
     {
+        if(lastUpdateTime==-1)
+        {
+            lastUpdateTime=time;
+            return;
+        }
         double currentTime=time;
         double dt=currentTime-lastUpdateTime;
         lastUpdateTime=currentTime;

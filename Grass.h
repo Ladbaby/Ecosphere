@@ -10,7 +10,6 @@ struct grassAtr
     double density;
 
     World* database;
-    double time;
 };
 
 

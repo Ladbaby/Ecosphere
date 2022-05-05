@@ -1,9 +1,10 @@
 #include"Parameter.h"
 
 GrassData grassData={
-    .energyAsFood  = 10,
-    .maxDensity    = 1000,
-    .baseGrowSpeed = 10,
+    .energyAsFood      = 10,
+    .maxDensity        = 1000,
+    .baseGrowSpeed     = 10,
+    .initialAvgDensity = 400 // must be less than maxDensity
 };
 
 SpecieData cowData={

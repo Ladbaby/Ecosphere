@@ -148,7 +148,7 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     ui->verticalWidget->resize(frameGeometry().size());
     // 更新动物图片大小 为opengl窗口的1/20
 
-    ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->scale, overlookGraph->scale, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
 }
@@ -261,21 +261,7 @@ void MainWindow::startAndStopSlot(){
     if (!ifOnDisplay){
         world = new World(192, 108);
         overlookGraph->world = world;
-        double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
-        for (int i = 0; i < widgets->grassWidget->getNumberOfCreature(); ++i){
-            // qDebug() << i << endl;
-            int cid = world->allocate();
-            grassAtr grassAtr = {
-                .id = cid,
-                .positionx = rand() / double(RAND_MAX) * 192,
-                .positiony = rand() / double(RAND_MAX) * 108,
-                .density = 1.0,
-                .database = world,
-                .time = currentTime
-            };
-            Grass grassTemp(grassAtr);
-            world->insert(grassTemp);
-        }
+        // double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
         for (int i = 0; i < widgets->cowWidget->getNumberOfCreature(); ++i){
             int cid = world->allocate();
             int cgender = (int) rand() % 2;
@@ -289,7 +275,7 @@ void MainWindow::startAndStopSlot(){
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
-                    .time = currentTime
+                    // .time = currentTime
                 };
                 Creature cowTemp(cowAtr);
                 world->insert(cowTemp);
@@ -304,7 +290,7 @@ void MainWindow::startAndStopSlot(){
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
-                    .time = currentTime
+                    // .time = currentTime
                 };
                 Creature cowTemp(cowAtr);
                 world->insert(cowTemp);
@@ -323,7 +309,7 @@ void MainWindow::startAndStopSlot(){
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
-                    .time = currentTime
+                    // .time = currentTime
                 };
                 Creature tigerTemp(tigerAtr);
                 world->insert(tigerTemp);
@@ -338,7 +324,7 @@ void MainWindow::startAndStopSlot(){
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
-                    .time = currentTime
+                    // .time = currentTime
                 };
                 Creature tigerTemp(tigerAtr);
                 world->insert(tigerTemp);

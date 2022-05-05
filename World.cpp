@@ -4,9 +4,31 @@
 #include<math.h>
 #include"Creature.h"
 #include"Grass.h"
+#include"Parameter.h"
 #include<vector>
 #include<list>
 
+extern GrassData grassData;
+
+double getInitialDensity()
+{
+    double initialAvgDensity=grassData.initialAvgDensity;
+    double maxDensity=grassData.maxDensity;
+    if(initialAvgDensity<=0)
+    {
+        return 0;
+    }
+    else if(initialAvgDensity>=maxDensity)
+    {
+        return maxDensity;
+    }
+    else
+    {
+        double range=std::min(initialAvgDensity, maxDensity-initialAvgDensity);
+        double randomFactor=((double)rand()/RAND_MAX-0.5)*2;
+        return initialAvgDensity+randomFactor*range;
+    }
+}
 
 //Downward integration
     int World::getX(double x)
@@ -76,6 +98,7 @@
 
     World::World(int x ,int y)
     {
+        ID=0;
         WorldWidth=x;
         WorldHeight=y;
         for (int width = 0; width < WorldWidth; width++)
@@ -86,7 +109,17 @@
         {
             for (int height = 0; height < WorldHeight; height++ )
             {
+                grassAtr tempAtr={
+                    .id=allocate(),
+                    .positionx=width,
+                    .positiony=height,
+                    .density=getInitialDensity(),
+                    .database=this
+                };
+                Grass tempGrass=Grass(tempAtr);
                 table[width].push_back(getList());
+                table[width][height].push_back(tempGrass.getID());
+                mapGrass[tempGrass.getID()]=tempGrass;
             }
         }
     }
@@ -110,6 +143,7 @@
             {
                 iterC=mapCreature.erase(iterC);
             }
+
         }
         for(auto iterG=mapGrass.begin();iterG!=mapGrass.end();iterG++)
         {
@@ -153,8 +187,6 @@
 
     void World::remove(int id)
     {
-        Grass object;
-        Creature objectC;
         auto iterC=mapCreature.find(id);
         auto iterG=mapGrass.find(id);
         if(iterC!=mapCreature.end())

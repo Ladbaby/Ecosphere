@@ -52,15 +52,16 @@ public:
     //判定是否渲染的为第一帧，用以初始化viewPort1
     bool firstRender = true;
     bool ifOnDisplay = false;
-
+    
+    //记录图像窗口的坐标数字和像素之间的变换倍率
+    //每1个坐标数字对应于scale个像素
+    int scale = 10;
 private:
     //把paintEvent里重复的代码抽象出来
     void paintGraph(QPainter &painter);
     //鼠标上一帧时的坐标位置
     QPointF pressPosition;
-    //记录图像窗口的坐标数字和像素之间的变换倍率
-    //每1个坐标数字对应于scale个像素
-    int scale = 10;
+    
 
 public slots:
     //响应鼠标事件，实现拖动图像
