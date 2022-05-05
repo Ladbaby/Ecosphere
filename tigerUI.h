@@ -7,7 +7,7 @@ class tigerUI : public creatureUI{
 public:
     tigerUI(QWidget* parent) : creatureUI(parent){
         setNumberOfCreature(1);
-        setCreatureImage(QString::fromUtf8(":/oceancat.jpg"));
+        setCreatureImage(QString::fromUtf8(":/doge.jpg"));
         setImageSize(getCreatureImage().size());
     }
 

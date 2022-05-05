@@ -195,14 +195,37 @@ void graph::paintGraph(QPainter &painter){
         for (auto it = world->grassBegin(); it != world->grassEnd(); it++){
             painter.drawImage(QRectF(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
         }
+        // QBrush brush(widgets->cowWidget->getCreatureImage());
+        // painter.setBrush(brush);
+        int cowNumber = 0;
+        int tigerNumber = 0;
         for (auto it = world->creatureBegin(); it != world->creatureEnd(); it++){
             if (it->second.getType() == cow){
-                painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
+                // painter.save();
+                // painter.setClipRegion(QRegion(QRect(QPoint(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().width() / 2) * (-1)), widgets->cowWidget->getImageSize()), QRegion::RegionType::Ellipse));
+                // painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
+                cowNumber++;
+                painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().height() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImage_cropped());
+                painter.save();
+                painter.setViewport(it->second.getPositionX() * scale + viewPort1.x() * this->width(), it->second.getPositionY() * scale * (-1) + viewPort1.y() * this->height(), this->width(), this->height());
+                painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
+                painter.drawImage(QRectF(QPointF(widgets->cowWidget->getImageSize().height() / 2, widgets->cowWidget->getImageSize().height() / 2 * (-1) * 0.5), QPointF(widgets->cowWidget->getImageSize().height() * 0.7, widgets->cowWidget->getImageSize().height() / 2 * 0.5)), widgets->cowWidget->getArrowImage());
+                // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
+                painter.restore();
             }
             else if(it->second.getType() == tiger){
-                painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->tigerWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->tigerWidget->getImageSize().height() / 2) * (-1)), widgets->tigerWidget->getImageSize()), widgets->tigerWidget->getCreatureImage());
+                tigerNumber++;
+                painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->tigerWidget->getImageSize().height() / 2, ((it->second.getPositionY()) * scale + widgets->tigerWidget->getImageSize().height() / 2) * (-1)), widgets->tigerWidget->getImage_cropped());
+                painter.save();
+                painter.setViewport(it->second.getPositionX() * scale + viewPort1.x() * this->width(), it->second.getPositionY() * scale * (-1) + viewPort1.y() * this->height(), this->width(), this->height());
+                painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
+                painter.drawImage(QRectF(QPointF(widgets->tigerWidget->getImageSize().height() / 2, widgets->tigerWidget->getImageSize().height() / 2 * (-1) * 0.5), QPointF(widgets->tigerWidget->getImageSize().height() * 0.7, widgets->tigerWidget->getImageSize().height() / 2 * 0.5)), widgets->tigerWidget->getArrowImage());
+                // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
+                painter.restore();
             }
         }
+        widgets->cowWidget->setNumberOfCreature(cowNumber);
+        widgets->tigerWidget->setNumberOfCreature(tigerNumber);
     }
     
     

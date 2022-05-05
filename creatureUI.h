@@ -8,7 +8,9 @@
 class creatureUI : public QWidget{
     Q_OBJECT
 public:
-    creatureUI(QWidget* parent) : QWidget(parent){}
+    creatureUI(QWidget* parent) : QWidget(parent){
+        arrowImage.load(QString::fromUtf8(":/arrow.png"));
+    }
     void setNumberOfCreature(int n){
         numberOfCreature = n;
     }
@@ -43,10 +45,21 @@ public:
     QSize getImageSize(){
         return imageSize;
     }
+    void setImage_cropped(const QImage &i){
+        creatureImage_cropped = i;
+    }
+    const QImage getImage_cropped() const{
+        return creatureImage_cropped;
+    }
+    const QImage getArrowImage() const{
+        return arrowImage;
+    }
     World* world;
 private:
     int numberOfCreature;
     QImage creatureImage;
+    QImage creatureImage_cropped;
+    QImage arrowImage;
     // float targetWidth;
     // float targetHeight;
     QSize imageSize;

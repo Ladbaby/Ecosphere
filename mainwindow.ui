@@ -49,8 +49,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>863</width>
-          <height>217</height>
+          <width>867</width>
+          <height>156</height>
          </rect>
         </property>
        </widget>
@@ -83,35 +83,80 @@ background-color: rgb(255,255,255);</string>
          <number>1</number>
         </property>
         <item>
-         <widget class="QPushButton" name="startButton">
+         <widget class="QWidget" name="verticalWidget" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>150</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Consolas</family>
-            <pointsize>16</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 0, 0);
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QPushButton" name="startButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Consolas</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 0, 0);
 color: rgb(255, 255, 255);
 border-radius:10px;</string>
-          </property>
-          <property name="text">
-           <string>Start/Stop</string>
-          </property>
+             </property>
+             <property name="text">
+              <string>Start</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pauseButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Consolas</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(255, 0, 0);
+border-radius:10px;
+border: 1px solid red;</string>
+             </property>
+             <property name="text">
+              <string>Pause</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
@@ -193,7 +238,7 @@ border: 1px solid black;</string>
                  <string notr="true">border: 0px;</string>
                 </property>
                 <property name="text">
-                 <string>number: 100</string>
+                 <string>average density: 100</string>
                 </property>
                </widget>
               </item>
@@ -420,7 +465,7 @@ border: 1px solid black;</string>
      <x>0</x>
      <y>0</y>
      <width>879</width>
-     <height>28</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="palette">

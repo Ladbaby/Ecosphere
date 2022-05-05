@@ -37,6 +37,7 @@ private:
     graph *overlookGraph;
     QTimer *timer;
     bool ifOnDisplay;
+    bool ifPause;
 
 private slots:
     void updateNumberOfGrass();
@@ -52,6 +53,7 @@ private slots:
     void on_actiontiger_triggered();
     void on_actionSave_Image_triggered();
     void startAndStopSlot();
+    void pauseAndResumeSlot();
     void updateWorld();
 };
 #endif // MAINWINDOW_H

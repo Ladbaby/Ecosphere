@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), overlookGraph(new graph(this)), widgets(new Widgets()), ifOnDisplay(false)
+    , ui(new Ui::MainWindow), overlookGraph(new graph(this)), widgets(new Widgets()), ifOnDisplay(false), ifPause(false)
 {
     ui->setupUi(this);
 
@@ -21,6 +21,35 @@ MainWindow::MainWindow(QWidget *parent)
     // cowWidget = ui->horizontalWidget_cow;
     // tigerWidget = ui->horizontalWidget_tiger;
 
+    // 初始化图像大小
+    ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->scale, overlookGraph->scale, Qt::KeepAspectRatioByExpanding));
+    ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+    ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+
+    // 初始化裁切图像
+    int imageSize_cow = widgets->cowWidget->getImageSize().width();
+    QImage imageCropped_cow(imageSize_cow, imageSize_cow, QImage::Format_ARGB32);
+    imageCropped_cow.fill(Qt::transparent);
+    QBrush brush_cow(widgets->cowWidget->getCreatureImage().scaled(imageSize_cow, imageSize_cow, Qt::KeepAspectRatioByExpanding));
+    QPainter painter_cropped_cow(&imageCropped_cow);
+    painter_cropped_cow.setBrush(brush_cow);
+    painter_cropped_cow.setPen(Qt::NoPen);
+    painter_cropped_cow.drawEllipse(0, 0, imageSize_cow, imageSize_cow);
+    painter_cropped_cow.end();
+    widgets->cowWidget->setImage_cropped(imageCropped_cow);
+
+    int imageSize_tiger = widgets->tigerWidget->getImageSize().width();
+    QImage imageCropped_tiger(imageSize_tiger, imageSize_tiger, QImage::Format_ARGB32);
+    imageCropped_tiger.fill(Qt::transparent);
+    QBrush brush_tiger(widgets->tigerWidget->getCreatureImage().scaled(imageSize_tiger, imageSize_tiger, Qt::KeepAspectRatioByExpanding));
+    QPainter painter_cropped_tiger(&imageCropped_tiger);
+    painter_cropped_tiger.setBrush(brush_tiger);
+    painter_cropped_tiger.setPen(Qt::NoPen);
+    painter_cropped_tiger.drawEllipse(0, 0, imageSize_tiger, imageSize_tiger);
+    painter_cropped_tiger.end();
+    widgets->tigerWidget->setImage_cropped(imageCropped_tiger);
+
+    // 初始化生物在控制台的图标
     QPixmap image("");
     double h = ui->icon_grass->height();
     double w = ui->icon_grass->width();
@@ -37,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     image.convertFromImage(ui->horizontalWidget_tiger->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
     ui->icon_tiger->setPixmap(image);
 
+    // connect
     QObject::connect(ui->lineEdit_grass,
                     SIGNAL(returnPressed()),
                     this,
@@ -53,13 +83,19 @@ MainWindow::MainWindow(QWidget *parent)
                     SIGNAL(pressed()),
                     this,
                     SLOT(startAndStopSlot()));
+    QObject::connect(ui->pauseButton,
+                    SIGNAL(pressed()),
+                    this,
+                    SLOT(pauseAndResumeSlot()));
     // QObject::connect(ui->actionBackground,
     //                 SIGNAL(triggered()),
     //                 this,
     //                 SLOT(on_actionBackground_tiggered()));
     // auto overlookGraph = new graph(ui->scrollArea);
+
+    // 将openGL widget替换进scrollArea
     ui->scrollArea->setWidget(overlookGraph);
-    // this->overlookGraph = overlookGraph;
+    // 初始化随机种子
     srand((unsigned)time(NULL));
 }
 
@@ -85,7 +121,7 @@ void MainWindow::updateNumberOfGrass(){
     ui->horizontalWidget_grass->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_grass->setText(QString::fromStdString(tempString));
-    qDebug() << sum << endl;
+    // qDebug() << sum << endl;
 }
 
 void MainWindow::updateNumberOfCow(){
@@ -105,7 +141,7 @@ void MainWindow::updateNumberOfCow(){
     ui->horizontalWidget_cow->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_cow->setText(QString::fromStdString(tempString));
-    qDebug() << sum << endl;
+    // qDebug() << sum << endl;
 }
 
 void MainWindow::updateNumberOfTiger(){
@@ -125,7 +161,7 @@ void MainWindow::updateNumberOfTiger(){
     ui->horizontalWidget_tiger->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_tiger->setText(QString::fromStdString(tempString));
-    qDebug() << sum << endl;
+    // qDebug() << sum << endl;
 }
 
 std::string MainWindow::trim(std::string str){
@@ -151,6 +187,28 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->scale, overlookGraph->scale, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
+
+    int imageSize_cow = widgets->cowWidget->getImageSize().height();
+    QImage imageCropped_cow(imageSize_cow, imageSize_cow, QImage::Format_ARGB32);
+    imageCropped_cow.fill(Qt::transparent);
+    QBrush brush_cow(widgets->cowWidget->getCreatureImage().scaled(imageSize_cow, imageSize_cow, Qt::KeepAspectRatioByExpanding));
+    QPainter painter_cropped_cow(&imageCropped_cow);
+    painter_cropped_cow.setBrush(brush_cow);
+    painter_cropped_cow.setPen(Qt::NoPen);
+    painter_cropped_cow.drawEllipse(0, 0, imageSize_cow, imageSize_cow);
+    painter_cropped_cow.end();
+    widgets->cowWidget->setImage_cropped(imageCropped_cow);
+
+    int imageSize_tiger = widgets->tigerWidget->getImageSize().height();
+    QImage imageCropped_tiger(imageSize_tiger, imageSize_tiger, QImage::Format_ARGB32);
+    imageCropped_tiger.fill(Qt::transparent);
+    QBrush brush_tiger(widgets->tigerWidget->getCreatureImage().scaled(imageSize_tiger, imageSize_tiger, Qt::KeepAspectRatioByExpanding));
+    QPainter painter_cropped_tiger(&imageCropped_tiger);
+    painter_cropped_tiger.setBrush(brush_tiger);
+    painter_cropped_tiger.setPen(Qt::NoPen);
+    painter_cropped_tiger.drawEllipse(0, 0, imageSize_tiger, imageSize_tiger);
+    painter_cropped_tiger.end();
+    widgets->tigerWidget->setImage_cropped(imageCropped_tiger);
 }
 
 void MainWindow::on_actionwhite_triggered(){
@@ -258,7 +316,8 @@ void MainWindow::on_actionSave_Image_triggered(){
     overlookGraph->background.save(filePath);
 }
 void MainWindow::startAndStopSlot(){
-    if (!ifOnDisplay){
+    if (!ifOnDisplay && !ifPause){
+        ui->startButton->setText(QString::fromStdString("Stop"));
         world = new World(192, 108);
         overlookGraph->world = world;
         // double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
@@ -330,20 +389,49 @@ void MainWindow::startAndStopSlot(){
                 world->insert(tigerTemp);
             }
         }
-    }
-    timer = new QTimer();
-    timer->setInterval(1000);
-    
-    QObject::connect(timer,
-                    SIGNAL(timeout()),
-                    this,
-                    SLOT(updateWorld()));
+        timer = new QTimer();
+        timer->setInterval(20);
+        
+        QObject::connect(timer,
+                        SIGNAL(timeout()),
+                        this,
+                        SLOT(updateWorld()));
 
-    ifOnDisplay = !ifOnDisplay;
-    overlookGraph->ifOnDisplay = !overlookGraph->ifOnDisplay;
-    // qDebug() << "fuck1" << endl;
-    overlookGraph->repaint();
-    timer->start();
+        ifOnDisplay = !ifOnDisplay;
+        overlookGraph->ifOnDisplay = !overlookGraph->ifOnDisplay;
+        // qDebug() << "fuck1" << endl;
+        overlookGraph->repaint();
+        timer->start();
+    }
+    else if(ifOnDisplay){
+        ui->startButton->setText(QString::fromStdString("Start"));
+        delete world;
+        delete timer;
+        ifOnDisplay = !ifOnDisplay;
+        overlookGraph->ifOnDisplay = !overlookGraph->ifOnDisplay;
+        overlookGraph->repaint();
+    }
+}
+void MainWindow::pauseAndResumeSlot(){
+    if (ifOnDisplay){
+        ifPause = !ifPause;
+        // overlookGraph->ifPause = !overlookGraph->ifPause;
+        if (ifPause){
+            ui->pauseButton->setText(QString::fromStdString("Resume"));
+            delete timer;
+        }
+        else{
+            ui->pauseButton->setText(QString::fromStdString("Pause"));
+            timer = new QTimer();
+            timer->setInterval(20);
+            QObject::connect(timer,
+                            SIGNAL(timeout()),
+                            this,
+                            SLOT(updateWorld()));
+            // overlookGraph->repaint();
+            timer->start();
+        }
+    }
 }
 
 void MainWindow::updateWorld(){
@@ -352,5 +440,10 @@ void MainWindow::updateWorld(){
     // qDebug() << currentTime << endl;
     world->updateAll(currentTime);
     overlookGraph->repaint();
-    // qDebug() << "fuck2" << endl;
+
+    std::string tempString = "number: " + std::to_string(widgets->cowWidget->getNumberOfCreature());
+    ui->label_cow->setText(QString::fromStdString(tempString));
+
+    tempString = "number: " + std::to_string(widgets->tigerWidget->getNumberOfCreature());
+    ui->label_tiger->setText(QString::fromStdString(tempString));
 }

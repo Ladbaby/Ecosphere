@@ -6,5 +6,8 @@
         <file alias="oceancat.jpg">image/oceancat.jpg</file>
         <file alias="doge.gif">image/doge.gif</file>
         <file alias="background.jpg">image/background.jpg</file>
+        <file alias="arrow.png">image/arrow.png</file>
+        <file alias="aljdoge.png">image/aljdoge.png</file>
+        <file alias="grass_word.png">image/grass_word.png</file>
     </qresource>
 </RCC>
