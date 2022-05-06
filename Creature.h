@@ -61,6 +61,8 @@ public:
 private:
     void move(double);
 
+    double wanderMove(double);
+
     bool judgeDeath();
 
     bool detectPredator(State);
@@ -158,9 +160,6 @@ private:
 
     std::vector<int> potentialCouples;
     int couple;
-
-    std::vector<int> potentialPrey;
-    std::vector<int> potentialGrassPrey;
 
     World* database;
 };

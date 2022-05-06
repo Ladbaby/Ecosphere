@@ -23,7 +23,7 @@ public:
     double getDensity()const;
     double getPositionX()const;
     double getPositionY()const;
-    double getID()const;
+    int getID()const;
     void setDensity(double Density);
 private:
     double growthFunction(double);

@@ -51,36 +51,9 @@ Creature::Creature(creatureAtr atr)
     // whatever
     state = stray;
 
-    direction = fmod(getRandom() * 10 * PI, 2 * PI);
-
-    double wanderDirection=fmod(getRandom()*10*PI, 2*PI);
-    double actualWanderDistance=getRandom()*specieDataList[type].wanderDistance;
-    double tempX=positionx+cos(wanderDirection)*actualWanderDistance;
-    double tempY=positiony+sin(wanderDirection)*actualWanderDistance;
-    if(tempX<0)
-    {
-        wanderDestinationx=0;
-    }
-    else if (tempX>database->getWorldWidth())
-    {
-        wanderDestinationx=database->getWorldWidth();
-    }
-    else
-    {
-        wanderDestinationx=tempX;
-    }
-    if(tempY<0)
-    {
-        wanderDestinationy=0;
-    }
-    else if(tempY>database->getWorldHeight())
-    {
-        wanderDestinationy=database->getWorldHeight();
-    }
-    else
-    {
-        wanderDestinationy=tempY;
-    }
+    direction = getRandom() * 2 * PI;
+    wanderDestinationx=positionx;
+    wanderDestinationy=positiony;
 
     target = 0;
     grassTarget = false;
@@ -89,8 +62,6 @@ Creature::Creature(creatureAtr atr)
     couple = 0;
     potentialCouples = {};
 
-    potentialPrey = {};
-    potentialGrassPrey = {};
 }
 
 bool Creature::update(double time)
@@ -301,6 +272,7 @@ State Creature::escapeStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
+    age+=dt;
     if (predatorEmpty())
     {
         energy -= specieDataList[type].baseCost * dt;
@@ -379,6 +351,7 @@ State Creature::allertStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
+    age+=dt;
     energy -= specieDataList[type].baseCost * dt;
     if (currentTime - lastChangeStateTime > specieDataList[type].allertTime)
     {
@@ -398,6 +371,7 @@ State Creature::huntStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
+    age+=dt;
     const Grass* tempGrass;
     const Creature* tempTarget;
     if (grassTarget)
@@ -517,6 +491,7 @@ State Creature::reproduceStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
+    age+=dt;
     if (stopReproduce())
     {
         lastChangeStateTime = currentTime;
@@ -597,6 +572,7 @@ State Creature::wanderStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
+    age+=dt;
     if (judgeIfReproduce())
     {
         addPotentialCouple();
@@ -608,23 +584,17 @@ State Creature::wanderStateAction(double time)
         }
     }
 
-    addPotentialPrey();
-    if (!preyEmpty())
+    if (choosePrey())
     {
-        if (choosePrey())
-        {
-            energy -= specieDataList[type].baseCost * dt;
-            lastChangeStateTime = currentTime;
-            return hunt;
-        }
+        energy -= specieDataList[type].baseCost * dt;
+        lastChangeStateTime = currentTime;
+        return hunt;
     }
 
-    double moveDistance = specieDataList[type].wanderSpeed * dt;
-    varyDirection(moveDistance);
+    double moveDistance = wanderMove(dt);
     // qDebug() <<"move distance:" << endl;
     // qDebug() << moveDistance << endl;
     // qDebug() << dt << endl;
-    move(moveDistance);
     energy = energy - specieDataList[type].baseCost * dt - moveDistance * specieDataList[type].moveCost;
     return stray;
 }
@@ -700,22 +670,13 @@ double Creature::reproduceProbability(double coupleEnergy, double x, double y)
     return prob;
 }
 
-void Creature::addPotentialPrey()
+
+bool Creature::choosePrey()
 {
-    potentialPrey.clear();
-    potentialGrassPrey.clear();
-    std::list<int> list = {};
-    std::list<int> grasslist = {};
-    const Creature* tempCreature;
-    list = database->rangeSearch(positionx, positiony, specieDataList[type].viewDistance);
-    auto findgrass = specieDataList[type].foods.find(grass);
-    if (findgrass != specieDataList[type].foods.end())
+    std::vector<foodCandidate> candidates;
+    for (int creatureId : database->rangeSearch(positionx, positiony, specieDataList[type].viewDistance))
     {
-        grasslist = database->rangeSearchGrass(positionx, positiony, specieDataList[type].viewDistance);
-    }
-    for (auto it = list.cbegin(); it != list.cend(); it++)
-    {
-        tempCreature=database->search(*it);
+        const Creature* tempCreature=database->search(creatureId);
         if(tempCreature==nullptr)
         {
             continue;
@@ -723,38 +684,27 @@ void Creature::addPotentialPrey()
         auto findfood = specieDataList[type].foods.find(tempCreature->getType());
         if (findfood != specieDataList[type].foods.end())
         {
-            potentialPrey.push_back(*it);
+            foodCandidate currCandidate;
+            currCandidate.id = creatureId;
+            currCandidate.grassTarget = false;
+            currCandidate.attractionValue = calculateAttraction(tempCreature->getType(), tempCreature->getEnergy(), tempCreature->getPositionX(), tempCreature->getPositionY());
+            candidates.push_back(currCandidate);
         }
     }
-    for (auto it = grasslist.cbegin(); it != grasslist.cend(); it++)
+    auto findgrass = specieDataList[type].foods.find(grass);
+    if (findgrass != specieDataList[type].foods.end())
     {
-        potentialGrassPrey.push_back(*it);
+        for(int grassId: database->rangeSearchGrass(positionx, positiony, specieDataList[type].viewDistance))
+        {
+            const Grass* tempGrass=database->searchGrass(grassId);
+            foodCandidate currCandidate;
+            currCandidate.id = grassId;
+            currCandidate.grassTarget = true;
+            currCandidate.attractionValue = calculateGrassAttraction(tempGrass->getDensity(), tempGrass->getPositionX(), tempGrass->getPositionY());
+            candidates.push_back(currCandidate);
+        }
     }
-}
 
-bool Creature::choosePrey()
-{
-    std::vector<foodCandidate> candidates;
-    const Creature* tempCreature;
-    const Grass* tempGrass;
-    for (auto it = potentialPrey.cbegin(); it != potentialPrey.cend(); it++)
-    {
-        tempCreature=database->search(*it);
-        foodCandidate currCandidate;
-        currCandidate.id = *it;
-        currCandidate.grassTarget = false;
-        currCandidate.attractionValue = calculateAttraction(tempCreature->getType(), tempCreature->getEnergy(), tempCreature->getPositionX(), tempCreature->getPositionY());
-        candidates.push_back(currCandidate);
-    }
-    for (auto it = potentialGrassPrey.cbegin(); it != potentialGrassPrey.cend(); it++)
-    {
-        tempGrass=database->searchGrass(*it);
-        foodCandidate currCandidate;
-        currCandidate.id = *it;
-        currCandidate.grassTarget = true;
-        currCandidate.attractionValue = calculateGrassAttraction(tempGrass->getDensity(), tempGrass->getPositionX(), tempGrass->getPositionY());
-        candidates.push_back(currCandidate);
-    }
     std::sort(candidates.begin(), candidates.end(), compareFood);
     for (auto it = candidates.cbegin(); it != candidates.cend(); it++)
     {
@@ -773,10 +723,6 @@ bool Creature::choosePrey()
     return false;
 }
 
-bool Creature::preyEmpty()
-{
-    return potentialPrey.empty() && potentialGrassPrey.empty();
-}
 
 double Creature::huntProbability(int foodId, double attraction)
 {
@@ -788,19 +734,18 @@ double Creature::huntProbability(int foodId, double attraction)
 double Creature::calculateAttraction(Type t, double e, double x, double y)
 {
     double attraction;
-    std::list<int> list = {};
-    list = database->rangeSearch(x, y, 0.5 * specieDataList[type].viewDistance);
+    std::list<int> list = {};// database->rangeSearch(x, y, 0.5 * specieDataList[type].viewDistance);
     int competitor = 1;
-    const Creature* tempCreature;
-    for (auto it = list.cbegin(); it != list.cend(); it++)
-    {
-        tempCreature=database->search(*it);
-        auto isPredator = specieDataList[t].predators.find(tempCreature->getType());
-        if (isPredator != specieDataList[t].predators.end())
-        {
-            competitor++;
-        }
-    }
+    // const Creature* tempCreature;
+    // for (auto it = list.cbegin(); it != list.cend(); it++)
+    // {
+    //     tempCreature=database->search(*it);
+    //     auto isPredator = specieDataList[t].predators.find(tempCreature->getType());
+    //     if (isPredator != specieDataList[t].predators.end())
+    //     {
+    //         competitor++;
+    //     }
+    // }
     attraction = (specieDataList[t].valueAsFood * e) / sqrt(competitor);
     return attraction;
 }
@@ -808,41 +753,41 @@ double Creature::calculateAttraction(Type t, double e, double x, double y)
 double Creature::calculateGrassAttraction(double d, double x, double y)
 {
     double attraction;
-    std::list<int> list = {};
-    list = database->rangeSearch(x, y, 0.5 * specieDataList[type].viewDistance);
+    std::list<int> list = {}; //database->rangeSearch(x, y, 0.5 * specieDataList[type].viewDistance);
     int competitor = 1;
-    const Creature* tempCreature;
-    for (auto it = list.cbegin(); it != list.cend(); it++)
-    {
-        tempCreature=database->search(*it);
-        auto isPredator = specieDataList[grass].predators.find(tempCreature->getType());
-        if (isPredator != specieDataList[grass].predators.end())
-        {
-            competitor++;
-        }
-    }
+    // const Creature* tempCreature;
+    // for (auto it = list.cbegin(); it != list.cend(); it++)
+    // {
+    //     tempCreature=database->search(*it);
+    //     auto isPredator = specieDataList[grass].predators.find(tempCreature->getType());
+    //     if (isPredator != specieDataList[grass].predators.end())
+    //     {
+    //         competitor++;
+    //     }
+    // }
     attraction = (d * grassData.energyAsFood) / sqrt(competitor);
     return attraction;
 }
 
-
-
-void Creature::varyDirection(double movedist)
+double Creature::wanderMove(double dt)
 {
+    double movedist=specieDataList[type].wanderSpeed*dt;
     double distToDestination = calculateDistance(wanderDestinationy, wanderDestinationx);
-    if (distToDestination < movedist)
+    if (distToDestination <= movedist)
     {
-        double wanderDirection=fmod(getRandom()*10*PI, 2*PI);
+        positionx=wanderDestinationx;
+        positiony=wanderDestinationy;
+        double wanderDirection = getRandom() * 2 * PI;
         double actualWanderDistance=getRandom()*specieDataList[type].wanderDistance;
         double tempX=positionx+cos(wanderDirection)*actualWanderDistance;
         double tempY=positiony+sin(wanderDirection)*actualWanderDistance;
         if(tempX<0)
         {
-            wanderDestinationx=0;
+            wanderDestinationx=-1*tempX;
         }
         else if (tempX>database->getWorldWidth())
         {
-            wanderDestinationx=database->getWorldWidth();
+            wanderDestinationx=2*database->getWorldWidth()-tempX;
         }
         else
         {
@@ -850,17 +795,25 @@ void Creature::varyDirection(double movedist)
         }
         if(tempY<0)
         {
-            wanderDestinationy=0;
+            wanderDestinationy=-1*tempY;
         }
         else if(tempY>database->getWorldHeight())
         {
-            wanderDestinationy=database->getWorldHeight();
+            wanderDestinationy=2*database->getWorldHeight()-tempY;
         }
         else
         {
             wanderDestinationy=tempY;
         }
         direction = calculateDirection(wanderDestinationy, wanderDestinationx);
+        return distToDestination;
+    }
+    else
+    {
+        direction=calculateDirection(wanderDestinationy, wanderDestinationx);
+        positionx+=movedist*cos(direction);
+        positiony+=movedist*sin(direction);
+        return movedist;
     }
 }
 

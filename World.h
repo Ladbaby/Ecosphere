@@ -7,18 +7,26 @@
 class Creature;
 class Grass;
 
-
+struct Grid
+{
+    std::list<int> creatureList;
+    int grassID;
+};
 
 class World
 {
 private:
+
+    std::vector<std::vector<Grid>> table;
+    std::map<int,Creature> mapCreature;
+    std::map<int,Grass> mapGrass;
+
     int getX(double x);
     int getY(double y);
+
     double distance(Creature object,double x,double y);
     bool isInside(int id,double x,double y,double R);
     bool GrassisInside(int id, double x, double y, double R);
-    std::vector<std::list<int>> getVector();
-    std::list<int> getList();
 
     int WorldWidth;
     int WorldHeight;
@@ -26,25 +34,21 @@ private:
     int ID;
     /*vector<vector <int> > ivec;
     ivec.resize(m,vector<int>(n));*/
-    std::vector<std::vector <std::list<int>> > table;
-    std::map<int,Creature> mapCreature;
 
-    std::map<int,Grass> mapGrass;
-
-    std::list<int>creatureList;
-    std::list<int>grassList;
 public:
-    World(int x=10000, int y=10000);
+    World(int x=96, int y=54);
 
     // updateAll(double time)
     // update all creatures and grass, given the current time
     void updateAll(double);
+
     void setWorldWidth(int width);
     void setWorldHeight(int height);
-
+    int getWorldWidth();
+    int getWorldHeight();
+    
     void insert(Creature);
-    void insert(Grass);
-
+    
     // remove(int id)
     // given the creature/grass id, remove it 
     void remove(int);
@@ -68,13 +72,11 @@ public:
     const Creature* search(int);
     const Grass* searchGrass(int);
 
-    int getWorldWidth();
-    int getWorldHeight();
-    
     // given the center and radius
     // find all objects of certain creature in that circle
     std::list<int> rangeSearch(double, double, double);  //center(x,y) ,R
     std::list<int> rangeSearchGrass(double, double, double);
+
     std::map<int, Creature>::const_iterator creatureBegin(){
         return mapCreature.begin();
     }

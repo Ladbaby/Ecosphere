@@ -400,7 +400,7 @@ void MainWindow::startAndStopSlot(){
         ifOnDisplay = !ifOnDisplay;
         overlookGraph->ifOnDisplay = !overlookGraph->ifOnDisplay;
         // qDebug() << "fuck1" << endl;
-        overlookGraph->repaint();
+        // overlookGraph->repaint();
         timer->start();
     }
     else if(ifOnDisplay){

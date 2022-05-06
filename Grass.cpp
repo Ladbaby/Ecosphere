@@ -50,7 +50,7 @@ extern GrassData grassData;
     {
         return positiony;
     }
-    double Grass::getID()const
+    int Grass::getID()const
     {
         return id;
     }

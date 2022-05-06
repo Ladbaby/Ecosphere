@@ -7,6 +7,7 @@
 #include"Parameter.h"
 #include<vector>
 #include<list>
+#include<iostream>
 
 extern GrassData grassData;
 
@@ -84,18 +85,6 @@ double getInitialDensity()
         return false;
     }
 
-    std::vector<std::list<int>> World::getVector()
-    {
-        std::vector <std::list<int>> s1;
-        return s1;
-    }
-
-    std::list<int> World::getList()
-    {
-        std::list<int> l1;
-        return l1;
-    }
-
     World::World(int x ,int y)
     {
         ID=0;
@@ -103,60 +92,64 @@ double getInitialDensity()
         WorldHeight=y;
         for (int width = 0; width < WorldWidth; width++)
         {
-            table.push_back(getVector());
-        }
-        for(int width = 0; width < WorldWidth; width++)
-        {
-            for (int height = 0; height < WorldHeight; height++ )
+            std::vector<Grid> row;
+            for(int height=0; height<WorldHeight; height++)
             {
                 grassAtr tempAtr={
                     .id=allocate(),
-                    .positionx=width,
-                    .positiony=height,
+                    .positionx=double(width),
+                    .positiony=double(height),
                     .density=getInitialDensity(),
                     .database=this
                 };
-                Grass tempGrass=Grass(tempAtr);
-                table[width].push_back(getList());
-                table[width][height].push_back(tempGrass.getID());
+                Grass tempGrass(tempAtr);
                 mapGrass[tempGrass.getID()]=tempGrass;
+                Grid grid={
+                    .creatureList={},
+                    .grassID=tempGrass.getID()
+                };
+                row.push_back(grid);
             }
+            table.push_back(row);
         }
     }
 
     void World::updateAll(double time)
     {
-        for(auto iterC=mapCreature.begin();iterC!=mapCreature.end();)
+        std::cout<<"Update: "<<time<<std::endl;
+        int cow=0;
+        for(int row=0; row<WorldWidth; row++)
         {
-            int id=iterC->first;
-            int x=getX(iterC->second.getPositionX());
-            int y=getY(iterC->second.getPositionY());
-            table[x][y].remove(id);
-            if((iterC->second).update(time))
+            for(int col=0; col<WorldHeight; col++)
             {
-                x=getX(iterC->second.getPositionX());
-                y=getY(iterC->second.getPositionY());
-                table[x][y].push_back(iterC->first);
-                iterC++;
+                int currGrass=table[row][col].grassID;
+                mapGrass[currGrass].update(time);
+                for(auto it=table[row][col].creatureList.begin(); it!=table[row][col].creatureList.end(); )
+                {
+                    std::cout<<"time: "<<time<<" cow: "<<cow<<std::endl;
+                    cow++;
+                    if(mapCreature[*it].update(time))
+                    {
+                        Creature tempCreature=mapCreature[*it];
+                        int currX=getX(tempCreature.getPositionX());
+                        int currY=getY(tempCreature.getPositionY());
+                        if(currX!=row || currY!=col)
+                        {
+                            table[currX][currY].creatureList.push_back(*it);
+                            it=table[row][col].creatureList.erase(it);
+                        }
+                        else
+                        {
+                            it++;
+                        }
+                    }
+                    else
+                    {
+                        it=table[row][col].creatureList.erase(it);
+                    }
+                }
             }
-            else
-            {
-                iterC=mapCreature.erase(iterC);
-            }
-
         }
-        for(auto iterG=mapGrass.begin();iterG!=mapGrass.end();iterG++)
-        {
-            int id=iterG->first;
-            int x=getX(iterG->second.getPositionX());
-            int y=getY(iterG->second.getPositionY());
-            table[x][y].remove(id);
-            (iterG->second).update(time);
-            x=getX(iterG->second.getPositionX());
-            y=getY(iterG->second.getPositionY());
-            table[x][y].push_back(iterG->first);
-        }
-
     }
     
     void World::setWorldWidth( int width)
@@ -173,35 +166,19 @@ double getInitialDensity()
     {
         int x=getX(object.getPositionX());
         int y=getY(object.getPositionY());
-        table[x][y].push_back(object.getID());
+        table[x][y].creatureList.push_back(object.getID());
         mapCreature[object.getID()]=object;
-    }
-
-    void World::insert(Grass object)
-    {
-        int x=getX(object.getPositionX());
-        int y=getY(object.getPositionY());
-        table[x][y].push_back(object.getID());
-        mapGrass[object.getID()]=object;
     }
 
     void World::remove(int id)
     {
-        auto iterC=mapCreature.find(id);
-        auto iterG=mapGrass.find(id);
-        if(iterC!=mapCreature.end())
+        auto tempCreature=mapCreature.find(id);
+        if(tempCreature!=mapCreature.end())
         {
-            int x=getX(iterC->second.getPositionX());
-            int y=getY(iterC->second.getPositionY());
-            table[x][y].remove(id);
-            mapCreature.erase(iterC);
-        }
-        if(iterG!=mapGrass.end())
-        {
-            int x=getX(iterG->second.getPositionX());
-            int y=getY(iterG->second.getPositionY());
-            table[x][y].remove(id);
-            mapGrass.erase(iterG);
+            int x=getX(tempCreature->second.getPositionX());
+            int y=getY(tempCreature->second.getPositionY());
+            table[x][y].creatureList.remove(id);
+            mapCreature.erase(tempCreature);
         }
     }
 
@@ -273,7 +250,7 @@ double getInitialDensity()
 
     std::list<int> World::rangeSearch(double x,double y,double r)
     {
-        std::list<int> creatureList;
+        std::list<int> resultCreatureList;
         int x_left=(int)floor(x-r);
         if(x-r<=0)  x_left=0;
         int x_right=(int)ceil(x+r);
@@ -286,22 +263,22 @@ double getInitialDensity()
         {
             for(int j=y_bottom;j<y_up;j++)
             {
-                for(auto iterL=table[i][j].begin(); iterL !=table[i][j].end();iterL++)
+                for(auto iterL=table[i][j].creatureList.begin(); iterL !=table[i][j].creatureList.end();iterL++)
                 {
                     int id=*iterL;
                     if(isInside(id,x,y,r))
                     {
-                        creatureList.push_back(id);
+                        resultCreatureList.push_back(id);
                     }
                 }
             }
         }
-        return creatureList;
+        return resultCreatureList;
     }
 
     std::list<int> World::rangeSearchGrass(double x,double y,double r)
     {
-        std::list<int>grasslist;
+        std::list<int> resultGrassList;
         int x_left=(int)floor(x-r);
         if(x-r<=0)  x_left=0;
         int x_right=(int)ceil(x+r);
@@ -314,17 +291,12 @@ double getInitialDensity()
         {
             for(int j=y_bottom;j<y_up;j++)
             {
-                for(auto iterL=table[i][j].begin(); iterL !=table[i][j].end();iterL++)
+                int currGrass=table[i][j].grassID;
+                if(GrassisInside(currGrass, x, y, r))
                 {
-                    int id=*iterL;
-                    if(GrassisInside(id,x,y,r))
-                    {
-                        grassList.push_back(id);
-                    }
-                    else
-                        continue;
+                    resultGrassList.push_back(currGrass);
                 }
             }
         }
-        return grassList;
+        return resultGrassList;
     }
