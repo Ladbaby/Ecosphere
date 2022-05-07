@@ -14,6 +14,7 @@
 #include "World.h"
 #include "Creature.h"
 #include "Grass.h"
+#include "Parameter.h"
 // #include "mainwindow.h"
 
 //自定义图像显示区域的QOpenGLWidget

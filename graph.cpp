@@ -193,7 +193,12 @@ void graph::paintGraph(QPainter &painter){
     
     if (ifOnDisplay){
         for (auto it = world->grassBegin(); it != world->grassEnd(); it++){
+            painter.save();
+            
+            painter.setOpacity(it->second.getDensity() / grassData.maxDensity);
+            
             painter.drawImage(QRectF(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
+            painter.restore();
         }
         // QBrush brush(widgets->cowWidget->getCreatureImage());
         // painter.setBrush(brush);
@@ -205,24 +210,37 @@ void graph::paintGraph(QPainter &painter){
                 // painter.setClipRegion(QRegion(QRect(QPoint(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().width() / 2) * (-1)), widgets->cowWidget->getImageSize()), QRegion::RegionType::Ellipse));
                 // painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
                 cowNumber++;
-                painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().height() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImage_cropped());
+                painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getSmallerEdge() / 2) * (-1)), widgets->cowWidget->getImage_cropped());
                 painter.save();
                 painter.setViewport(it->second.getPositionX() * scale + viewPort1.x() * this->width(), it->second.getPositionY() * scale * (-1) + viewPort1.y() * this->height(), this->width(), this->height());
                 painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
-                painter.drawImage(QRectF(QPointF(widgets->cowWidget->getImageSize().height() / 2, widgets->cowWidget->getImageSize().height() / 2 * (-1) * 0.5), QPointF(widgets->cowWidget->getImageSize().height() * 0.7, widgets->cowWidget->getImageSize().height() / 2 * 0.5)), widgets->cowWidget->getArrowImage());
+                painter.drawImage(QRectF(QPointF(widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2 * (-1) * 0.5), QPointF(widgets->cowWidget->getSmallerEdge() * 0.7, widgets->cowWidget->getSmallerEdge() / 2 * 0.5)), widgets->cowWidget->getArrowImage());
                 // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
                 painter.restore();
             }
             else if(it->second.getType() == tiger){
                 tigerNumber++;
-                painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->tigerWidget->getImageSize().height() / 2, ((it->second.getPositionY()) * scale + widgets->tigerWidget->getImageSize().height() / 2) * (-1)), widgets->tigerWidget->getImage_cropped());
+                painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->tigerWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->tigerWidget->getSmallerEdge() / 2) * (-1)), widgets->tigerWidget->getImage_cropped());
                 painter.save();
                 painter.setViewport(it->second.getPositionX() * scale + viewPort1.x() * this->width(), it->second.getPositionY() * scale * (-1) + viewPort1.y() * this->height(), this->width(), this->height());
                 painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
-                painter.drawImage(QRectF(QPointF(widgets->tigerWidget->getImageSize().height() / 2, widgets->tigerWidget->getImageSize().height() / 2 * (-1) * 0.5), QPointF(widgets->tigerWidget->getImageSize().height() * 0.7, widgets->tigerWidget->getImageSize().height() / 2 * 0.5)), widgets->tigerWidget->getArrowImage());
+                painter.drawImage(QRectF(QPointF(widgets->tigerWidget->getSmallerEdge() / 2, widgets->tigerWidget->getSmallerEdge() / 2 * (-1) * 0.5), QPointF(widgets->tigerWidget->getSmallerEdge() * 0.7, widgets->tigerWidget->getSmallerEdge() / 2 * 0.5)), widgets->tigerWidget->getArrowImage());
                 // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
                 painter.restore();
             }
+            painter.drawText(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("energy:" + std::to_string(it->second.getEnergy())));
+            painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale - widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("age:" + std::to_string(it->second.getAge())));
+
+            // 画性别标识的圈圈
+            painter.save();
+            if (it->second.getGender() == male){// 雄性为蓝色
+                painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            }
+            else{// 雌性为红色
+                painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            }
+            painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
+            painter.restore();
         }
         widgets->cowWidget->setNumberOfCreature(cowNumber);
         widgets->tigerWidget->setNumberOfCreature(tigerNumber);

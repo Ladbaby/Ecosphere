@@ -27,27 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
 
     // 初始化裁切图像
-    int imageSize_cow = widgets->cowWidget->getImageSize().width();
-    QImage imageCropped_cow(imageSize_cow, imageSize_cow, QImage::Format_ARGB32);
-    imageCropped_cow.fill(Qt::transparent);
-    QBrush brush_cow(widgets->cowWidget->getCreatureImage().scaled(imageSize_cow, imageSize_cow, Qt::KeepAspectRatioByExpanding));
-    QPainter painter_cropped_cow(&imageCropped_cow);
-    painter_cropped_cow.setBrush(brush_cow);
-    painter_cropped_cow.setPen(Qt::NoPen);
-    painter_cropped_cow.drawEllipse(0, 0, imageSize_cow, imageSize_cow);
-    painter_cropped_cow.end();
-    widgets->cowWidget->setImage_cropped(imageCropped_cow);
+    int smallerEdge = overlookGraph->height() / 10;
+    widgets->cowWidget->setImage_cropped(paintCroppedImage(smallerEdge, smallerEdge, widgets->cowWidget->getCreatureImage()));
+    widgets->cowWidget->setSmallerEdge(smallerEdge);
 
-    int imageSize_tiger = widgets->tigerWidget->getImageSize().width();
-    QImage imageCropped_tiger(imageSize_tiger, imageSize_tiger, QImage::Format_ARGB32);
-    imageCropped_tiger.fill(Qt::transparent);
-    QBrush brush_tiger(widgets->tigerWidget->getCreatureImage().scaled(imageSize_tiger, imageSize_tiger, Qt::KeepAspectRatioByExpanding));
-    QPainter painter_cropped_tiger(&imageCropped_tiger);
-    painter_cropped_tiger.setBrush(brush_tiger);
-    painter_cropped_tiger.setPen(Qt::NoPen);
-    painter_cropped_tiger.drawEllipse(0, 0, imageSize_tiger, imageSize_tiger);
-    painter_cropped_tiger.end();
-    widgets->tigerWidget->setImage_cropped(imageCropped_tiger);
+    widgets->tigerWidget->setImage_cropped(paintCroppedImage(smallerEdge, smallerEdge, widgets->tigerWidget->getCreatureImage()));
+    widgets->tigerWidget->setSmallerEdge(smallerEdge);
 
     // 初始化生物在控制台的图标
     QPixmap image("");
@@ -119,8 +104,9 @@ void MainWindow::updateNumberOfGrass(){
             return;
     }
     ui->horizontalWidget_grass->setNumberOfCreature(sum);
-    tempString = "number: " + tempString;
+    tempString = "average density: " + tempString;
     ui->label_grass->setText(QString::fromStdString(tempString));
+    grassData.initialAvgDensity = sum;
     // qDebug() << sum << endl;
 }
 
@@ -188,27 +174,14 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
 
-    int imageSize_cow = widgets->cowWidget->getImageSize().height();
-    QImage imageCropped_cow(imageSize_cow, imageSize_cow, QImage::Format_ARGB32);
-    imageCropped_cow.fill(Qt::transparent);
-    QBrush brush_cow(widgets->cowWidget->getCreatureImage().scaled(imageSize_cow, imageSize_cow, Qt::KeepAspectRatioByExpanding));
-    QPainter painter_cropped_cow(&imageCropped_cow);
-    painter_cropped_cow.setBrush(brush_cow);
-    painter_cropped_cow.setPen(Qt::NoPen);
-    painter_cropped_cow.drawEllipse(0, 0, imageSize_cow, imageSize_cow);
-    painter_cropped_cow.end();
-    widgets->cowWidget->setImage_cropped(imageCropped_cow);
 
-    int imageSize_tiger = widgets->tigerWidget->getImageSize().height();
-    QImage imageCropped_tiger(imageSize_tiger, imageSize_tiger, QImage::Format_ARGB32);
-    imageCropped_tiger.fill(Qt::transparent);
-    QBrush brush_tiger(widgets->tigerWidget->getCreatureImage().scaled(imageSize_tiger, imageSize_tiger, Qt::KeepAspectRatioByExpanding));
-    QPainter painter_cropped_tiger(&imageCropped_tiger);
-    painter_cropped_tiger.setBrush(brush_tiger);
-    painter_cropped_tiger.setPen(Qt::NoPen);
-    painter_cropped_tiger.drawEllipse(0, 0, imageSize_tiger, imageSize_tiger);
-    painter_cropped_tiger.end();
-    widgets->tigerWidget->setImage_cropped(imageCropped_tiger);
+    int smallerEdge = overlookGraph->height() / 10;
+    widgets->cowWidget->setImage_cropped(paintCroppedImage(smallerEdge, smallerEdge, widgets->cowWidget->getCreatureImage()));
+    widgets->cowWidget->setSmallerEdge(smallerEdge);
+
+    widgets->tigerWidget->setImage_cropped(paintCroppedImage(smallerEdge, smallerEdge, widgets->tigerWidget->getCreatureImage()));
+    widgets->tigerWidget->setSmallerEdge(smallerEdge);
+
 }
 
 void MainWindow::on_actionwhite_triggered(){
@@ -281,6 +254,9 @@ void MainWindow::on_actioncow_triggered(){
         double w = ui->icon_cow->width();
         image.convertFromImage(ui->horizontalWidget_cow->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
         ui->icon_cow->setPixmap(image);
+
+        // 更新裁切图片
+        widgets->cowWidget->setImage_cropped(paintCroppedImage(widgets->cowWidget->getSmallerEdge(), widgets->cowWidget->getSmallerEdge(), widgets->cowWidget->getCreatureImage()));
         this->update();
     }
 }
@@ -299,6 +275,9 @@ void MainWindow::on_actiontiger_triggered(){
         double w = ui->icon_tiger->width();
         image.convertFromImage(ui->horizontalWidget_tiger->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
         ui->icon_tiger->setPixmap(image);
+
+        // 更新裁切图片
+        widgets->tigerWidget->setImage_cropped(paintCroppedImage(widgets->tigerWidget->getSmallerEdge(), widgets->tigerWidget->getSmallerEdge(), widgets->tigerWidget->getCreatureImage()));
         this->update();
     }
 }
@@ -364,7 +343,7 @@ void MainWindow::startAndStopSlot(){
                     .type = tiger,
                     .energy = 100,
                     .gender = male,
-                    .age = rand() / double(RAND_MAX) * 15,
+                    .age = rand() / double(RAND_MAX) * 300,
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
@@ -379,7 +358,7 @@ void MainWindow::startAndStopSlot(){
                     .type = tiger,
                     .energy = 100,
                     .gender = female,
-                    .age = rand() / double(RAND_MAX) * 15,
+                    .age = rand() / double(RAND_MAX) * 300,
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
@@ -406,7 +385,13 @@ void MainWindow::startAndStopSlot(){
     else if(ifOnDisplay){
         ui->startButton->setText(QString::fromStdString("Start"));
         delete world;
-        delete timer;
+        if (!ifPause){
+            delete timer;
+        }
+        else{
+            ifPause = !ifPause;
+            ui->pauseButton->setText(QString::fromStdString("Pause"));
+        }
         ifOnDisplay = !ifOnDisplay;
         overlookGraph->ifOnDisplay = !overlookGraph->ifOnDisplay;
         overlookGraph->repaint();
@@ -446,4 +431,15 @@ void MainWindow::updateWorld(){
 
     tempString = "number: " + std::to_string(widgets->tigerWidget->getNumberOfCreature());
     ui->label_tiger->setText(QString::fromStdString(tempString));
+}
+QImage MainWindow::paintCroppedImage(int width, int height, QImage sourceImage){
+    QImage imageCropped(width, height, QImage::Format_ARGB32);
+    imageCropped.fill(Qt::transparent);
+    QBrush brush(sourceImage.scaled(width, height, Qt::KeepAspectRatioByExpanding));
+    QPainter painter(&imageCropped);
+    painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
+    painter.drawEllipse(0, 0, width, height);
+    painter.end();
+    return imageCropped;
 }

@@ -34,6 +34,7 @@ private:
     Ui::MainWindow *ui;
     std::string trim(std::string str);
     void resizeEvent(QResizeEvent *event);
+    QImage paintCroppedImage(int width, int height, QImage sourceImage);
     graph *overlookGraph;
     QTimer *timer;
     bool ifOnDisplay;

@@ -54,6 +54,12 @@ public:
     const QImage getArrowImage() const{
         return arrowImage;
     }
+    void setSmallerEdge(int s){
+        smallerEdge = s;
+    }
+    const int getSmallerEdge() const{
+        return smallerEdge;
+    }
     World* world;
 private:
     int numberOfCreature;
@@ -63,6 +69,7 @@ private:
     // float targetWidth;
     // float targetHeight;
     QSize imageSize;
+    int smallerEdge;
     // std::string trim(std::string str){
     //     //删除0到第一个不是空格的字符
     //     str.erase(0, str.find_first_not_of(" "));

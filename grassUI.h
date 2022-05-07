@@ -8,8 +8,8 @@ public:
     grassUI(QWidget* parent) : creatureUI(parent){
         setNumberOfCreature(100);
         setCreatureImage(QString::fromUtf8(":/grass_word.png"));
+        setCreatureImage(getCreatureImage().convertToFormat(QImage::Format_ARGB32));
         setImageSize(getCreatureImage().size());
     }
-
 };
 # endif

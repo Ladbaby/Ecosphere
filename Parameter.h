@@ -9,6 +9,8 @@ enum Type {tiger = 0, cow, grass};
 enum Gender {male, female};
 enum State {stray, hunt, escape, allert, reproduce};
 
+
+
 struct GrassData
 {
     double energyAsFood;
@@ -38,3 +40,6 @@ struct SpecieData
     std::set<Type> foods;
     std::set<Type> predators;
 };
+
+extern GrassData grassData;
+extern SpecieData specieDataList[2];
