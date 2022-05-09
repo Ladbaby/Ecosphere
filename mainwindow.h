@@ -53,6 +53,8 @@ private slots:
     void on_actioncow_triggered();
     void on_actiontiger_triggered();
     void on_actionSave_Image_triggered();
+    void on_actionage_triggered();
+    void on_actionenergy_triggered();
     void startAndStopSlot();
     void pauseAndResumeSlot();
     void updateWorld();

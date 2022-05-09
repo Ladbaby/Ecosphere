@@ -228,9 +228,14 @@ void graph::paintGraph(QPainter &painter){
                 // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
                 painter.restore();
             }
-            painter.drawText(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("energy:" + std::to_string(it->second.getEnergy())));
-            painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale - widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("age:" + std::to_string(it->second.getAge())));
-
+            // 判断画能量
+            if (ifEnergy){
+                painter.drawText(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("energy:" + std::to_string(it->second.getEnergy())));
+            }
+            // 判断画年龄
+            if (ifAge){
+                painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale - widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("age:" + std::to_string(it->second.getAge())));
+            }
             // 画性别标识的圈圈
             painter.save();
             if (it->second.getGender() == male){// 雄性为蓝色

@@ -294,6 +294,14 @@ void MainWindow::on_actionSave_Image_triggered(){
     //保存
     overlookGraph->background.save(filePath);
 }
+void MainWindow::on_actionage_triggered(){
+    overlookGraph->ifAge = !overlookGraph->ifAge;
+    overlookGraph->repaint();
+}
+void MainWindow::on_actionenergy_triggered(){
+    overlookGraph->ifEnergy = !overlookGraph->ifEnergy;
+    overlookGraph->repaint();
+}
 void MainWindow::startAndStopSlot(){
     if (!ifOnDisplay && !ifPause){
         ui->startButton->setText(QString::fromStdString("Stop"));

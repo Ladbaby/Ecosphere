@@ -54,6 +54,9 @@ public:
     //判定是否渲染的为第一帧，用以初始化viewPort1
     bool firstRender = true;
     bool ifOnDisplay = false;
+    // 显示的生物的属性
+    bool ifAge = false;
+    bool ifEnergy = false;
     // bool ifPause = false;
     
     //记录图像窗口的坐标数字和像素之间的变换倍率
