@@ -1,7 +1,7 @@
-#include"Parameter.h"
-#include"World.h"
-#include"Grass.h"
-#include<math.h>
+#include "Parameter.h"
+#include "World.h"
+#include "Grass.h"
+#include <math.h>
 
 extern GrassData grassData;
 
@@ -36,21 +36,26 @@ void Grass::update(double time)
     }
 }
 
-double Grass::getDensity()const
+void Grass::afterPause(double time)
+{
+    lastUpdateTime += time;
+}
+
+double Grass::getDensity() const
 {
     return density;
 }
 
-double Grass::getPositionX()const
+double Grass::getPositionX() const
 {
     return positionx;
 }
 
-double Grass::getPositionY()const
+double Grass::getPositionY() const
 {
     return positiony;
 }
-int Grass::getID()const
+int Grass::getID() const
 {
     return id;
 }
@@ -62,7 +67,7 @@ void Grass::setDensity(double Density)
 
 double Grass::growthFunction(double t)
 {
-    return grassData.maxDensity * (1 - exp(- grassData.baseGrowSpeed * t));
+    return grassData.maxDensity * (1 - exp(-grassData.baseGrowSpeed * t));
 }
 double Grass::inverseGrowthFunction(double density)
 {

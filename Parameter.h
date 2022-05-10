@@ -25,8 +25,8 @@ struct SpecieData
     double aveAge;
     double aveBaseSize;
     double energyFactor;
-    double minReproduceEnergy;
-    double reproduceCost;
+    double minReproduceEnergy; // 相对于健康能量水平的比值
+    double reproduceCost; // 相对于健康能量水平的比值
     double moveCost;
     double baseCost;
     double valueAsFood;

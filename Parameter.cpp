@@ -3,20 +3,20 @@
 GrassData grassData={
     .energyAsFood      = 100,
     .maxDensity        = 1000,
-    .baseGrowSpeed     = 0.02,
-    .initialAvgDensity = 0 // must be less than maxDensity
+    .baseGrowSpeed     = 0.2,
+    .initialAvgDensity = 200 // must be less than maxDensity
 };
 
 SpecieData cowData={
-    .adultAge           = 30,
+    .adultAge           = 150,
     .aveAge             = 300,
     .aveBaseSize        = 10,
     .energyFactor       = 10,
-    .minReproduceEnergy = 150000,
-    .reproduceCost      = 100000,
+    .minReproduceEnergy = 0.8,
+    .reproduceCost      = 0.75,
     .moveCost           = 0.01,
     .baseCost           = 0.01,
-    .valueAsFood        = 1000,
+    .valueAsFood        = 100,
     .viewAngle          = PI*2/3,
     .viewDistance       = 10,
     .allertDistance     = 10,
@@ -33,8 +33,8 @@ SpecieData tigerData={
     .aveAge             = 300,
     .aveBaseSize        = 10,
     .energyFactor       = 10,
-    .minReproduceEnergy = 150000,
-    .reproduceCost      = 100000,
+    .minReproduceEnergy = 0.8,
+    .reproduceCost      = 0.75,
     .moveCost           = 0.1,
     .baseCost           = 0.1,
     .valueAsFood        = 1,

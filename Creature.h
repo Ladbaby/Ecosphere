@@ -1,9 +1,9 @@
 #pragma once
-#include<set>
-#include<vector>
-#include<optional>
-#include"World.h"
-#include"Parameter.h"
+#include <set>
+#include <vector>
+#include <optional>
+#include "World.h"
+#include "Parameter.h"
 
 struct foodCandidate
 {
@@ -16,13 +16,11 @@ struct creatureAtr
 {
     int id;
     Type type;
-    double energy;
     Gender gender;
-    double age;
     double positionx;
     double positiony;
 
-    World* database;
+    World *database;
 };
 
 class Creature
@@ -33,6 +31,8 @@ public:
     bool update(double);
     // If the creature is dead, return false
     // control creature's action and state change according to current state and environment
+    void afterPause(double time);
+
     State getState() const;
 
     Type getType() const;
@@ -48,20 +48,25 @@ public:
     double getPositionX() const;
 
     double getPositionY() const;
-    
+
     void setCoupleID(int coupleID);
 
     void setState(State s);
 
-    void setEnergy( double Energy);
+    void setEnergy(double Energy);
+
+    void setAge(double);
 
     int getID() const;
-    
+
     bool canRun() const;
+
 private:
     void move(double);
 
     double wanderMove(double);
+
+    double healthEnergy();
 
     bool judgeDeath();
 
@@ -84,7 +89,7 @@ private:
     bool predatorEmpty();
 
     double escapeDirection();
-    
+
     // 2. allert state functions
 
     State allertStateAction(double);
@@ -117,7 +122,7 @@ private:
     bool chooseCouple();
     double reproduceProbability(double, double, double);
     // energy of potential couple, coordinate of potential couple
-    
+
     void addPotentialPrey();
     /* in wanderStateAction we need to check if the potentialSet is empty
     after addPotentialPrey, if empty, just skip hunting*/
@@ -148,7 +153,7 @@ private:
     double size;
     double positionx;
     double positiony;
-    double lastUpdateTime; // 只要更新就记录时间
+    double lastUpdateTime;      // 只要更新就记录时间
     double lastChangeStateTime; // 只有状态变化才记录时间
     double wanderDestinationx;
     double wanderDestinationy;
@@ -161,5 +166,5 @@ private:
     std::vector<int> potentialCouples;
     int couple;
 
-    World* database;
+    World *database;
 };

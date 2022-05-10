@@ -315,9 +315,9 @@ void MainWindow::startAndStopSlot(){
                 creatureAtr cowAtr = {
                     .id = cid,
                     .type = cow,
-                    .energy = 100,
+                    // .energy = 100,
                     .gender = male,
-                    .age = rand() / double(RAND_MAX) * 15,
+                    // .age = rand() / double(RAND_MAX) * 15,
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
@@ -330,9 +330,9 @@ void MainWindow::startAndStopSlot(){
                 creatureAtr cowAtr = {
                     .id = cid,
                     .type = cow,
-                    .energy = 100,
+                    // .energy = 100,
                     .gender = female,
-                    .age = rand() / double(RAND_MAX) * 15,
+                    // .age = rand() / double(RAND_MAX) * 15,
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
@@ -349,9 +349,9 @@ void MainWindow::startAndStopSlot(){
                 creatureAtr tigerAtr = {
                     .id = cid,
                     .type = tiger,
-                    .energy = 100,
+                    // .energy = 100,
                     .gender = male,
-                    .age = rand() / double(RAND_MAX) * 300,
+                    // .age = rand() / double(RAND_MAX) * 300,
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
@@ -364,9 +364,9 @@ void MainWindow::startAndStopSlot(){
                 creatureAtr tigerAtr = {
                     .id = cid,
                     .type = tiger,
-                    .energy = 100,
+                    // .energy = 100,
                     .gender = female,
-                    .age = rand() / double(RAND_MAX) * 300,
+                    // .age = rand() / double(RAND_MAX) * 300,
                     .positionx = rand() / double(RAND_MAX) * 192,
                     .positiony = rand() / double(RAND_MAX) * 108,
                     .database = world,
@@ -421,8 +421,9 @@ void MainWindow::pauseAndResumeSlot(){
                             SIGNAL(timeout()),
                             this,
                             SLOT(updateWorld()));
-            // overlookGraph->repaint();
             timer->start();
+            world->afterPause((double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0));
+            overlookGraph->repaint();
         }
     }
 }

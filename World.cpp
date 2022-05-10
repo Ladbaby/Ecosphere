@@ -1,14 +1,13 @@
-#include"World.h"
-#include<stdio.h>     
-#include<time.h> 
-#include<math.h>
-#include"Creature.h"
-#include"Grass.h"
-#include"Parameter.h"
-#include<vector>
-#include<list>
-#include<iostream>
-
+#include "World.h"
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+#include "Creature.h"
+#include "Grass.h"
+#include "Parameter.h"
+#include <vector>
+#include <list>
+#include <iostream>
 
 double getInitialDensity()
 {
@@ -30,7 +29,7 @@ double getInitialDensity()
     }
 }
 
-//Downward integration
+// Downward integration
 int World::getX(double x)
 {
     if (int(x) == WorldWidth)
@@ -99,14 +98,12 @@ World::World(int x, int y)
                 .positionx = double(width),
                 .positiony = double(height),
                 .density = getInitialDensity(),
-                .database = this
-            };
+                .database = this};
             Grass tempGrass(tempAtr);
             mapGrass[tempGrass.getID()] = tempGrass;
             Grid grid = {
                 .creatureList = {},
-                .grassID = tempGrass.getID()
-            };
+                .grassID = tempGrass.getID()};
             row.push_back(grid);
         }
         table.push_back(row);
@@ -123,7 +120,7 @@ void World::updateAll(double time)
         {
             int currGrass = table[row][col].grassID;
             mapGrass[currGrass].update(time);
-            for (auto it = table[row][col].creatureList.begin(); it != table[row][col].creatureList.end(); )
+            for (auto it = table[row][col].creatureList.begin(); it != table[row][col].creatureList.end();)
             {
                 // std::cout << "time: " << time << " cow: " << cow << std::endl;
                 cow++;
@@ -149,6 +146,18 @@ void World::updateAll(double time)
                 }
             }
         }
+    }
+}
+
+void World::afterPause(double time)
+{
+    for (auto it = mapCreature.begin(); it != mapCreature.end(); it++)
+    {
+        it->second.afterPause(time);
+    }
+    for (auto it = mapGrass.begin(); it != mapGrass.end(); it++)
+    {
+        it->second.afterPause(time);
     }
 }
 
@@ -216,7 +225,7 @@ void World::updateCouple(int id, int coupleID, State S)
     }
 }
 
-const Creature* World::search(int id)
+const Creature *World::search(int id)
 {
     auto iterC = mapCreature.find(id);
     if (iterC != mapCreature.end())
@@ -227,7 +236,7 @@ const Creature* World::search(int id)
     return nullptr;
 }
 
-const Grass* World::searchGrass(int id)
+const Grass *World::searchGrass(int id)
 {
     auto iterG = mapGrass.find(id);
     if (iterG != mapGrass.end())
@@ -252,18 +261,22 @@ std::list<int> World::rangeSearch(double x, double y, double r)
 {
     std::list<int> resultCreatureList;
     int x_left = (int)floor(x - r);
-    if (x - r <= 0)  x_left = 0;
+    if (x - r <= 0)
+        x_left = 0;
     int x_right = (int)ceil(x + r);
-    if (x_right >= WorldWidth) x_right = WorldWidth;
+    if (x_right >= WorldWidth)
+        x_right = WorldWidth;
     int y_bottom = (int)floor(y - r);
-    if (y_bottom <= 0) y_bottom = 0;
+    if (y_bottom <= 0)
+        y_bottom = 0;
     int y_up = (int)ceil(y + r);
-    if (y_up > WorldHeight)    y_up = WorldHeight;
-    for (int i = x_left;i < x_right;i++)
+    if (y_up > WorldHeight)
+        y_up = WorldHeight;
+    for (int i = x_left; i < x_right; i++)
     {
-        for (int j = y_bottom;j < y_up;j++)
+        for (int j = y_bottom; j < y_up; j++)
         {
-            for (auto iterL = table[i][j].creatureList.begin(); iterL != table[i][j].creatureList.end();iterL++)
+            for (auto iterL = table[i][j].creatureList.begin(); iterL != table[i][j].creatureList.end(); iterL++)
             {
                 int id = *iterL;
                 if (isInside(id, x, y, r))
@@ -280,16 +293,20 @@ std::list<int> World::rangeSearchGrass(double x, double y, double r)
 {
     std::list<int> resultGrassList;
     int x_left = (int)floor(x - r);
-    if (x - r <= 0)  x_left = 0;
+    if (x - r <= 0)
+        x_left = 0;
     int x_right = (int)ceil(x + r);
-    if (x_right >= WorldWidth)     x_right = WorldWidth;
+    if (x_right >= WorldWidth)
+        x_right = WorldWidth;
     int y_bottom = (int)floor(y - r);
-    if (y_bottom <= 0) y_bottom = 0;
+    if (y_bottom <= 0)
+        y_bottom = 0;
     int y_up = (int)ceil(y + r);
-    if (y_up > WorldHeight)    y_up = WorldHeight;
-    for (int i = x_left;i < x_right;i++)
+    if (y_up > WorldHeight)
+        y_up = WorldHeight;
+    for (int i = x_left; i < x_right; i++)
     {
-        for (int j = y_bottom;j < y_up;j++)
+        for (int j = y_bottom; j < y_up; j++)
         {
             int currGrass = table[i][j].grassID;
             if (GrassisInside(currGrass, x, y, r))

@@ -196,7 +196,8 @@ void graph::paintGraph(QPainter &painter){
             painter.save();
             
             painter.setOpacity(it->second.getDensity() / grassData.maxDensity);
-            
+            // painter.setPen(QPen(Qt::black, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            // painter.drawText(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), QString::fromStdString(std::to_string(it->second.getDensity())));
             painter.drawImage(QRectF(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
             painter.restore();
         }
