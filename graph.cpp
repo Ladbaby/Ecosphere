@@ -205,6 +205,8 @@ void graph::paintGraph(QPainter &painter){
         // painter.setBrush(brush);
         int cowNumber = 0;
         int tigerNumber = 0;
+        int cowNumber_male = 0;
+        int tigerNumber_male = 0;
         for (auto it = world->creatureBegin(); it != world->creatureEnd(); it++){
             if (it->second.getType() == cow){
                 // painter.save();
@@ -218,6 +220,17 @@ void graph::paintGraph(QPainter &painter){
                 painter.drawImage(QRectF(QPointF(widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2 * (-1) * 0.5), QPointF(widgets->cowWidget->getSmallerEdge() * 0.7, widgets->cowWidget->getSmallerEdge() / 2 * 0.5)), widgets->cowWidget->getArrowImage());
                 // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
                 painter.restore();
+                // 画性别标识的圈圈
+                painter.save();
+                if (it->second.getGender() == male){// 雄性为蓝色
+                    painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                    cowNumber_male++;
+                }
+                else{// 雌性为红色
+                    painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                }
+                painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
+                painter.restore();
             }
             else if(it->second.getType() == tiger){
                 tigerNumber++;
@@ -227,6 +240,17 @@ void graph::paintGraph(QPainter &painter){
                 painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
                 painter.drawImage(QRectF(QPointF(widgets->tigerWidget->getSmallerEdge() / 2, widgets->tigerWidget->getSmallerEdge() / 2 * (-1) * 0.5), QPointF(widgets->tigerWidget->getSmallerEdge() * 0.7, widgets->tigerWidget->getSmallerEdge() / 2 * 0.5)), widgets->tigerWidget->getArrowImage());
                 // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
+                painter.restore();
+                // 画性别标识的圈圈
+                painter.save();
+                if (it->second.getGender() == male){// 雄性为蓝色
+                    painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                    tigerNumber_male++;
+                }
+                else{// 雌性为红色
+                    painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                }
+                painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
                 painter.restore();
             }
             // 判断画能量
@@ -238,18 +262,20 @@ void graph::paintGraph(QPainter &painter){
                 painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale - widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("age:" + std::to_string(it->second.getAge())));
             }
             // 画性别标识的圈圈
-            painter.save();
-            if (it->second.getGender() == male){// 雄性为蓝色
-                painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            }
-            else{// 雌性为红色
-                painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            }
-            painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
-            painter.restore();
+            // painter.save();
+            // if (it->second.getGender() == male){// 雄性为蓝色
+            //     painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            // }
+            // else{// 雌性为红色
+            //     painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            // }
+            // painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
+            // painter.restore();
         }
         widgets->cowWidget->setNumberOfCreature(cowNumber);
+        widgets->cowWidget->setNumberOfMale(cowNumber_male);
         widgets->tigerWidget->setNumberOfCreature(tigerNumber);
+        widgets->tigerWidget->setNumberOfMale(tigerNumber_male);
     }
     
     

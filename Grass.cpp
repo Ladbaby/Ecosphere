@@ -38,7 +38,7 @@ void Grass::update(double time)
 
 void Grass::afterPause(double time)
 {
-    lastUpdateTime += time;
+    lastUpdateTime = time;
 }
 
 double Grass::getDensity() const

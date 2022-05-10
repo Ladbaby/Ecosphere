@@ -435,10 +435,10 @@ void MainWindow::updateWorld(){
     world->updateAll(currentTime);
     overlookGraph->repaint();
 
-    std::string tempString = "number: " + std::to_string(widgets->cowWidget->getNumberOfCreature());
+    std::string tempString = "total number: " + std::to_string(widgets->cowWidget->getNumberOfCreature()) + "; male: " + std::to_string(widgets->cowWidget->getNumberOfMale()) + "; female: " + std::to_string(widgets->cowWidget->getNumberOfCreature() - widgets->cowWidget->getNumberOfMale());
     ui->label_cow->setText(QString::fromStdString(tempString));
 
-    tempString = "number: " + std::to_string(widgets->tigerWidget->getNumberOfCreature());
+    tempString = "total number: " + std::to_string(widgets->tigerWidget->getNumberOfCreature()) + "; male: " + std::to_string(widgets->tigerWidget->getNumberOfMale()) + "; female: " + std::to_string(widgets->tigerWidget->getNumberOfCreature() - widgets->tigerWidget->getNumberOfMale());
     ui->label_tiger->setText(QString::fromStdString(tempString));
 }
 QImage MainWindow::paintCroppedImage(int width, int height, QImage sourceImage){

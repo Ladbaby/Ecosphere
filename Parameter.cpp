@@ -8,14 +8,14 @@ GrassData grassData={
 };
 
 SpecieData cowData={
-    .adultAge           = 150,
-    .aveAge             = 300,
+    .adultAge           = 1500,
+    .aveAge             = 3000,
     .aveBaseSize        = 10,
     .energyFactor       = 10,
     .minReproduceEnergy = 0.8,
     .reproduceCost      = 0.75,
-    .moveCost           = 0.01,
-    .baseCost           = 0.01,
+    .moveCost           = 1,
+    .baseCost           = 1,
     .valueAsFood        = 100,
     .viewAngle          = PI*2/3,
     .viewDistance       = 10,
@@ -29,14 +29,14 @@ SpecieData cowData={
 };
 
 SpecieData tigerData={
-    .adultAge           = 30,
-    .aveAge             = 300,
+    .adultAge           = 1500,
+    .aveAge             = 3000,
     .aveBaseSize        = 10,
     .energyFactor       = 10,
     .minReproduceEnergy = 0.8,
     .reproduceCost      = 0.75,
-    .moveCost           = 0.1,
-    .baseCost           = 0.1,
+    .moveCost           = 1,
+    .baseCost           = 1,
     .valueAsFood        = 1,
     .viewAngle          = PI,
     .viewDistance       = 20,

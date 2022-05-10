@@ -60,9 +60,16 @@ public:
     const int getSmallerEdge() const{
         return smallerEdge;
     }
+    void setNumberOfMale(const int &m){
+        numberOfMale = m;
+    }
+    const int getNumberOfMale()const{
+        return numberOfMale;
+    }
     World* world;
 private:
     int numberOfCreature;
+    int numberOfMale;
     QImage creatureImage;
     QImage creatureImage_cropped;
     QImage arrowImage;
