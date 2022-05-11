@@ -1024,6 +1024,7 @@ border: 1px solid black;</string>
      </property>
      <addaction name="actionage"/>
      <addaction name="actionenergy"/>
+     <addaction name="actionstate"/>
     </widget>
     <addaction name="menuBackground"/>
     <addaction name="menuCreature_Icon"/>
@@ -1130,6 +1131,14 @@ color: black;</string>
    </property>
    <property name="text">
     <string>energy</string>
+   </property>
+  </action>
+  <action name="actionstate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>state</string>
    </property>
   </action>
  </widget>

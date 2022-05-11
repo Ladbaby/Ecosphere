@@ -55,6 +55,7 @@ private slots:
     void on_actionSave_Image_triggered();
     void on_actionage_triggered();
     void on_actionenergy_triggered();
+    void on_actionstate_triggered();
     void startAndStopSlot();
     void pauseAndResumeSlot();
     void updateWorld();

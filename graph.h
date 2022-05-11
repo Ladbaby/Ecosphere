@@ -30,6 +30,9 @@ public:
     //记录此时图像窗口的宽高
     double graphW;
     double graphH;
+
+    double worldWidth = 0.0;
+    double worldHeight = 0.0;
     //图像，在保存图片时使用
     QImage background;
     //背景颜色
@@ -57,11 +60,11 @@ public:
     // 显示的生物的属性
     bool ifAge = false;
     bool ifEnergy = false;
-    // bool ifPause = false;
+    bool ifState = false;
     
     //记录图像窗口的坐标数字和像素之间的变换倍率
     //每1个坐标数字对应于scale个像素
-    int scale = 10;
+    int scale;
 private:
     //把paintEvent里重复的代码抽象出来
     void paintGraph(QPainter &painter);

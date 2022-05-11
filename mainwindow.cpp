@@ -51,6 +51,10 @@ MainWindow::MainWindow(QWidget *parent)
     image.convertFromImage(ui->horizontalWidget_tiger->getCreatureImage().scaled(w,h,Qt::KeepAspectRatio));
     ui->icon_tiger->setPixmap(image);
 
+    // 设置世界大小
+    overlookGraph->worldWidth = 192.0;
+    overlookGraph->worldHeight = 108.0;
+
     // connect
     QObject::connect(ui->lineEdit_grass,
                     SIGNAL(returnPressed()),
@@ -302,10 +306,14 @@ void MainWindow::on_actionenergy_triggered(){
     overlookGraph->ifEnergy = !overlookGraph->ifEnergy;
     overlookGraph->repaint();
 }
+void MainWindow::on_actionstate_triggered(){
+    overlookGraph->ifState = !overlookGraph->ifState;
+    overlookGraph->repaint();
+}
 void MainWindow::startAndStopSlot(){
     if (!ifOnDisplay && !ifPause){
         ui->startButton->setText(QString::fromStdString("Stop"));
-        world = new World(192, 108);
+        world = new World(overlookGraph->worldWidth, overlookGraph->worldHeight);
         overlookGraph->world = world;
         // double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
         for (int i = 0; i < widgets->cowWidget->getNumberOfCreature(); ++i){

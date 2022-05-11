@@ -45,6 +45,8 @@ public:
 
     double getEnergy() const;
 
+    double getEnergyRatio() const;
+
     double getPositionX() const;
 
     double getPositionY() const;
@@ -66,7 +68,9 @@ private:
 
     double wanderMove(double);
 
-    double healthEnergy();
+    void grow(double);
+
+    double healthEnergy() const;
 
     bool judgeDeath();
 

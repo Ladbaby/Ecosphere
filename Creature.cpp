@@ -40,7 +40,7 @@ Creature::Creature(creatureAtr atr)
     lastUpdateTime = -1;
     lastChangeStateTime = -1;
     // random from specieData
-    age = randomize(specieDataList[type].aveAge, 0.6);
+    age = specieDataList[type].aveAge * getRandom();
     baseSize = randomize(specieDataList[type].aveBaseSize, 0.4);
     baseRunSpeed = randomize(specieDataList[type].baseRunSpeed, 0.4);
     // calculated
@@ -123,6 +123,8 @@ double Creature::getDirection() const { return direction; }
 
 double Creature::getEnergy() const { return energy; }
 
+double Creature::getEnergyRatio() const { return energy / healthEnergy(); }
+
 double Creature::getPositionX() const { return positionx; }
 
 double Creature::getPositionY() const { return positiony; }
@@ -191,7 +193,14 @@ void Creature::move(double movedist)
     }
 }
 
-double Creature::healthEnergy()
+void Creature::grow(double dt)
+{
+    age += dt;
+    sizeFactor = std::max(double(1), sqrt(age / specieDataList[type].adultAge));
+    size = baseSize * sizeFactor;
+}
+
+double Creature::healthEnergy() const
 {
     return size * specieDataList[type].energyFactor;
 }
@@ -203,9 +212,16 @@ bool Creature::judgeDeath()
     {
         return true;
     }
-    else if (prob < pow(age / (2 * specieDataList[type].aveAge), 2))
+    else if (age > 0.8 * specieDataList[type].aveAge)
     {
-        return true;
+        if (prob < pow(age / (2 * specieDataList[type].aveAge), 4))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     else
     {
@@ -215,6 +231,7 @@ bool Creature::judgeDeath()
 
 bool Creature::detectPredator(State s)
 {
+    predatorset.clear();
     double currAllertDist = specieDataList[type].allertDistance;
     if (s == escape || s == allert)
     {
@@ -295,7 +312,7 @@ State Creature::escapeStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
-    age += dt;
+    grow(dt);
     if (predatorEmpty())
     {
         energy -= specieDataList[type].baseCost * dt;
@@ -363,11 +380,11 @@ double Creature::escapeDirection()
         {
             continue;
         }
-        totaly += (tempPredator->getPositionY() - positiony) / dist;
-        totalx += (tempPredator->getPositionX() - positionx) / dist;
+        totaly += (positiony - tempPredator->getPositionY()) / dist;
+        totalx += (positionx - tempPredator->getPositionX()) / dist;
     }
-    double escape = calculateDirection(totaly, totalx);
-    return escape;
+    double escapeDirection = equivalentDirection(atan2(totaly, totalx));
+    return escapeDirection;
 }
 
 // 2. allert state function
@@ -377,7 +394,7 @@ State Creature::allertStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
-    age += dt;
+    grow(dt);
     energy -= specieDataList[type].baseCost * dt;
     if (currentTime - lastChangeStateTime > specieDataList[type].allertTime)
     {
@@ -397,7 +414,7 @@ State Creature::huntStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
-    age += dt;
+    grow(dt);
     const Grass *tempGrass;
     const Creature *tempTarget;
     if (grassTarget)
@@ -517,7 +534,7 @@ State Creature::reproduceStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
-    age += dt;
+    grow(dt);
     if (stopReproduce())
     {
         lastChangeStateTime = currentTime;
@@ -596,7 +613,7 @@ State Creature::wanderStateAction(double time)
     double currentTime = time;
     double dt = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
-    age += dt;
+    grow(dt);
     if (judgeIfReproduce())
     {
         addPotentialCouple();
@@ -608,11 +625,14 @@ State Creature::wanderStateAction(double time)
         }
     }
 
-    if (choosePrey())
+    if (energy < healthEnergy() * 1.5)
     {
-        energy -= specieDataList[type].baseCost * dt;
-        lastChangeStateTime = currentTime;
-        return hunt;
+        if (choosePrey())
+        {
+            energy -= specieDataList[type].baseCost * dt;
+            lastChangeStateTime = currentTime;
+            return hunt;
+        }
     }
 
     double moveDistance = wanderMove(dt);
@@ -647,7 +667,7 @@ void Creature::addPotentialCouple()
         {
             continue;
         }
-        if (tempCreature->getType() == type && tempCreature->getAge() > specieDataList[type].adultAge && gender != tempCreature->getGender() && tempCreature->getState() == stray)
+        if (tempCreature->getType() == type && tempCreature->getAge() > specieDataList[type].adultAge && gender != tempCreature->getGender() && tempCreature->getState() == stray && tempCreature->getEnergy() > specieDataList[type].minReproduceEnergy * healthEnergy())
         {
             potentialCouples.push_back(*it);
         }
