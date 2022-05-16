@@ -193,6 +193,8 @@ void graph::paintGraph(QPainter& painter) {
     }
 
     if (ifOnDisplay) {
+        int grassNumber = 0;
+        int grassDensitySum = 0;
         for (auto it = world->grassBegin(); it != world->grassEnd(); it++) {
             painter.save();
 
@@ -201,7 +203,10 @@ void graph::paintGraph(QPainter& painter) {
             // painter.drawText(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), QString::fromStdString(std::to_string(it->second.getDensity())));
             painter.drawImage(QRectF(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
             painter.restore();
+            grassNumber++;
+            grassDensitySum += it->second.getDensity();
         }
+        widgets->grassWidget->grassDensity = (double) grassDensitySum / (double) grassNumber;
         // QBrush brush(widgets->cowWidget->getCreatureImage());
         // painter.setBrush(brush);
         int cowNumber = 0;

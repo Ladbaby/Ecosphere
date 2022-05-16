@@ -107,7 +107,8 @@ void MainWindow::updateNumberOfGrass(){
         else
             return;
     }
-    ui->horizontalWidget_grass->setNumberOfCreature(sum);
+    // ui->horizontalWidget_grass->setNumberOfCreature(sum);
+    widgets->grassWidget->grassDensity = sum;
     tempString = "average density: " + tempString;
     ui->label_grass->setText(QString::fromStdString(tempString));
     grassData.initialAvgDensity = sum;
@@ -448,6 +449,9 @@ void MainWindow::updateWorld(){
 
     tempString = "total number: " + std::to_string(widgets->tigerWidget->getNumberOfCreature()) + "; male: " + std::to_string(widgets->tigerWidget->getNumberOfMale()) + "; female: " + std::to_string(widgets->tigerWidget->getNumberOfCreature() - widgets->tigerWidget->getNumberOfMale());
     ui->label_tiger->setText(QString::fromStdString(tempString));
+
+    tempString = "average density: " + std::to_string(widgets->grassWidget->grassDensity);
+    ui->label_grass->setText(QString::fromStdString(tempString));
 }
 QImage MainWindow::paintCroppedImage(int width, int height, QImage sourceImage){
     QImage imageCropped(width, height, QImage::Format_ARGB32);

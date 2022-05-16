@@ -1,7 +1,7 @@
 #include"Parameter.h"
 
 GrassData grassData={
-    .energyAsFood      = 1,
+    .energyAsFood      = 0.1,
     .maxDensity        = 1000,
     .baseGrowSpeed     = 0.2,
     .initialAvgDensity = 200 // must be less than maxDensity
@@ -12,11 +12,11 @@ SpecieData cowData={
     .aveAge             = 300,
     .aveBaseSize        = 10,
     .energyFactor       = 10,
-    .minReproduceEnergy = 0,
+    .minReproduceEnergy = 1.3,
     .reproduceCost      = 0.75,
     .moveCost           = 1,
     .baseCost           = 1,
-    .valueAsFood        = 1,
+    .valueAsFood        = 0.46,
     .viewAngle          = PI*2/3,
     .viewDistance       = 10,
     .allertDistance     = 10,
@@ -33,10 +33,10 @@ SpecieData tigerData={
     .aveAge             = 300,
     .aveBaseSize        = 10,
     .energyFactor       = 10,
-    .minReproduceEnergy = 0,
+    .minReproduceEnergy = 1.3,
     .reproduceCost      = 0.75,
-    .moveCost           = 1,
-    .baseCost           = 1,
+    .moveCost           = 0.1,
+    .baseCost           = 0.1,
     .valueAsFood        = 1,
     .viewAngle          = PI,
     .viewDistance       = 20,

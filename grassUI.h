@@ -10,6 +10,8 @@ public:
         setCreatureImage(QString::fromUtf8(":/grass_word.png"));
         setCreatureImage(getCreatureImage().convertToFormat(QImage::Format_ARGB32));
         setImageSize(getCreatureImage().size());
+        grassDensity = 0.0;
     }
+    double grassDensity;
 };
 # endif
