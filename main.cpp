@@ -9,18 +9,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    // QFont font;
-    // font.setFamily("Microsoft Yahei");
-    // font.setPixelSize(13);
-    // a.setFont(font);
-
-    // QTextCodec *codec = QTextCodec::codecForName("utf-8");
-    // QTextCodec::setCodecForLocale(codec);
-
-    // frmBattery w;
-    // w.setWindowTitle("Data Structure");
-    // w.show();
+    // 创建程序UI主窗口
     MainWindow mainWindow;
+    // 设定窗口的标题名字
     mainWindow.setWindowTitle("Ecosphere");
     mainWindow.show();
 

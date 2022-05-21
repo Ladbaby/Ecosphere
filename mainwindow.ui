@@ -238,7 +238,7 @@ border: 1px solid black;</string>
                  <string notr="true">border: 0px;</string>
                 </property>
                 <property name="text">
-                 <string>average density: 100</string>
+                 <string>average density: 400</string>
                 </property>
                </widget>
               </item>

@@ -7,21 +7,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // overlookGraph->database = database;
+    // 初始化widgets，绑定到UI中的qwidget
     widgets->grassWidget = ui->horizontalWidget_grass;
     widgets->cowWidget = ui->horizontalWidget_cow;
     widgets->tigerWidget = ui->horizontalWidget_tiger;
 
+    // 初始化各个widget对象里的world指针
     ui->horizontalWidget_grass->world = world;
     ui->horizontalWidget_cow->world = world;
     ui->horizontalWidget_tiger->world = world;
     overlookGraph->world = world;
     overlookGraph->widgets = widgets;
-    // grassWidget = ui->horizontalWidget_grass;
-    // cowWidget = ui->horizontalWidget_cow;
-    // tigerWidget = ui->horizontalWidget_tiger;
 
-    // 初始化图像大小
+    // 初始化各个物种的图像大小
     ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->scale, overlookGraph->scale, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
@@ -76,11 +74,6 @@ MainWindow::MainWindow(QWidget *parent)
                     SIGNAL(pressed()),
                     this,
                     SLOT(pauseAndResumeSlot()));
-    // QObject::connect(ui->actionBackground,
-    //                 SIGNAL(triggered()),
-    //                 this,
-    //                 SLOT(on_actionBackground_tiggered()));
-    // auto overlookGraph = new graph(ui->scrollArea);
 
     // 将openGL widget替换进scrollArea
     ui->scrollArea->setWidget(overlookGraph);
@@ -94,8 +87,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::updateNumberOfGrass(){
+    // 获得当前输入框里面的文本
     std::string inputString = ui->lineEdit_grass->text().toStdString();
+    // 去掉文本的前后空格
     std::string tempString = trim(inputString);
+    // 计算文本实际表示的int大小，若非数字直接无视该输入
     int sum = 0;
     if(tempString.length() == 0)
         return;
@@ -107,14 +103,15 @@ void MainWindow::updateNumberOfGrass(){
         else
             return;
     }
-    // ui->horizontalWidget_grass->setNumberOfCreature(sum);
+    // 更新草的初始密度
     widgets->grassWidget->grassDensity = sum;
+    // 更新UI中显示的密度
     tempString = "average density: " + tempString;
     ui->label_grass->setText(QString::fromStdString(tempString));
     grassData.initialAvgDensity = sum;
-    // qDebug() << sum << endl;
 }
 
+// 牛同理
 void MainWindow::updateNumberOfCow(){
     std::string inputString = ui->lineEdit_cow->text().toStdString();
     std::string tempString = trim(inputString);
@@ -132,9 +129,9 @@ void MainWindow::updateNumberOfCow(){
     ui->horizontalWidget_cow->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_cow->setText(QString::fromStdString(tempString));
-    // qDebug() << sum << endl;
 }
 
+// 老虎同理
 void MainWindow::updateNumberOfTiger(){
     std::string inputString = ui->lineEdit_tiger->text().toStdString();
     std::string tempString = trim(inputString);
@@ -152,7 +149,6 @@ void MainWindow::updateNumberOfTiger(){
     ui->horizontalWidget_tiger->setNumberOfCreature(sum);
     tempString = "number: " + tempString;
     ui->label_tiger->setText(QString::fromStdString(tempString));
-    // qDebug() << sum << endl;
 }
 
 std::string MainWindow::trim(std::string str){
@@ -173,13 +169,13 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     overlookGraph->graphW = overlookGraph->width();
     overlookGraph->graphH = overlookGraph->height();
     ui->verticalWidget->resize(frameGeometry().size());
-    // 更新动物图片大小 为opengl窗口的1/20
 
+    // 更新动物图片大小 为opengl窗口的1/20
     ui->horizontalWidget_grass->setImageSize(ui->horizontalWidget_grass->getImageSize().scaled(overlookGraph->scale, overlookGraph->scale, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_cow->setImageSize(ui->horizontalWidget_cow->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
     ui->horizontalWidget_tiger->setImageSize(ui->horizontalWidget_tiger->getImageSize().scaled(overlookGraph->width() / 20, overlookGraph->height() / 20, Qt::KeepAspectRatioByExpanding));
 
-
+    // 更新smallerEdge
     int smallerEdge = overlookGraph->height() / 10;
     widgets->cowWidget->setImage_cropped(paintCroppedImage(smallerEdge, smallerEdge, widgets->cowWidget->getCreatureImage()));
     widgets->cowWidget->setSmallerEdge(smallerEdge);
@@ -189,16 +185,19 @@ void MainWindow::resizeEvent(QResizeEvent *event){
 
 }
 
+// 设置背景颜色为白色
 void MainWindow::on_actionwhite_triggered(){
     overlookGraph->backgroundColor = Qt::white;
     overlookGraph->ifImage = false;
     overlookGraph->repaint();
 }
+// 设置背景为预设图片
 void MainWindow::on_actionsample_image_triggered(){
     overlookGraph->customizedImage.load(":/background.jpg");
     overlookGraph->ifImage = true;
     overlookGraph->repaint();
 }
+// 设置背景为用户自定义图片
 void MainWindow::on_actioncustomized_image_triggered()
 {
     //弹出图像选择框，获取图片绝对路径
@@ -215,17 +214,19 @@ void MainWindow::on_actioncustomized_image_triggered()
         overlookGraph->repaint();
     }
 }
+// 是否显示网格
 void MainWindow::on_actionGrid_triggered()
 {
     overlookGraph->ifGrid = (overlookGraph->ifGrid == true ? false : true);
     overlookGraph->repaint();
 }
-
+// 是否显示坐标轴
 void MainWindow::on_actionAxis_triggered()
 {
     overlookGraph->ifAxis = (overlookGraph->ifAxis == true ? false : true);
     overlookGraph->repaint();
 }
+// 更换草的头像为用户自定义头像
 void MainWindow::on_actiongrass_triggered(){
     QString OpenFile = QFileDialog::getOpenFileName(this,
             "choose an image for the background",
@@ -244,6 +245,7 @@ void MainWindow::on_actiongrass_triggered(){
         this->update();
     }
 }
+// 更换牛的头像为用户自定义头像
 void MainWindow::on_actioncow_triggered(){
     QString OpenFile = QFileDialog::getOpenFileName(this,
             "choose an image for the background",
@@ -265,6 +267,7 @@ void MainWindow::on_actioncow_triggered(){
         this->update();
     }
 }
+// 更换老虎的头像为用户自定义头像
 void MainWindow::on_actiontiger_triggered(){
     QString OpenFile = QFileDialog::getOpenFileName(this,
             "choose an image for the background",
@@ -286,6 +289,7 @@ void MainWindow::on_actiontiger_triggered(){
         this->update();
     }
 }
+// 保存当前的截图
 void MainWindow::on_actionSave_Image_triggered(){
     //弹出保存位置的选择框，顺便获取绝对路径
     QString filePath = QFileDialog::getSaveFileName(this, "Save Image", "", "PNG (*.png);;JPEG (*.jpg *jpeg);;All files(*.*)");
@@ -299,25 +303,29 @@ void MainWindow::on_actionSave_Image_triggered(){
     //保存
     overlookGraph->background.save(filePath);
 }
+// 是否显示动物年龄
 void MainWindow::on_actionage_triggered(){
     overlookGraph->ifAge = !overlookGraph->ifAge;
     overlookGraph->repaint();
 }
+// 是否显示动物能量
 void MainWindow::on_actionenergy_triggered(){
     overlookGraph->ifEnergy = !overlookGraph->ifEnergy;
     overlookGraph->repaint();
 }
+// 是否显示动物状态
 void MainWindow::on_actionstate_triggered(){
     overlookGraph->ifState = !overlookGraph->ifState;
     overlookGraph->repaint();
 }
+// 开始，结束当前生态系统
 void MainWindow::startAndStopSlot(){
-    if (!ifOnDisplay && !ifPause){
+    if (!ifOnDisplay && !ifPause){// 没有已存在的世界，且不处于暂停状态
         ui->startButton->setText(QString::fromStdString("Stop"));
+        // 创建新的“世界”
         world = new World(overlookGraph->worldWidth, overlookGraph->worldHeight);
         overlookGraph->world = world;
-        // double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
-        for (int i = 0; i < widgets->cowWidget->getNumberOfCreature(); ++i){
+        for (int i = 0; i < widgets->cowWidget->getNumberOfCreature(); ++i){// 创建牛
             int cid = world->allocate();
             int cgender = (int) rand() % 2;
             if (cgender == 0){
@@ -351,7 +359,7 @@ void MainWindow::startAndStopSlot(){
                 world->insert(cowTemp);
             }
         }
-        for (int i = 0; i < widgets->tigerWidget->getNumberOfCreature(); ++i){
+        for (int i = 0; i < widgets->tigerWidget->getNumberOfCreature(); ++i){// 创建老虎
             int cid = world->allocate();
             int cgender = (int) rand() % 2;
             if (cgender == 0){
@@ -385,6 +393,7 @@ void MainWindow::startAndStopSlot(){
                 world->insert(tigerTemp);
             }
         }
+        // 世界每20毫秒更新一次
         timer = new QTimer();
         timer->setInterval(20);
         
@@ -399,7 +408,7 @@ void MainWindow::startAndStopSlot(){
         // overlookGraph->repaint();
         timer->start();
     }
-    else if(ifOnDisplay){
+    else if(ifOnDisplay){// 删除当前世界
         ui->startButton->setText(QString::fromStdString("Start"));
         delete world;
         if (!ifPause){
@@ -414,6 +423,7 @@ void MainWindow::startAndStopSlot(){
         overlookGraph->repaint();
     }
 }
+// 世界暂停，继续
 void MainWindow::pauseAndResumeSlot(){
     if (ifOnDisplay){
         ifPause = !ifPause;
@@ -438,12 +448,14 @@ void MainWindow::pauseAndResumeSlot(){
 }
 
 void MainWindow::updateWorld(){
-    
+    // 获取当前时间
     double currentTime = (double) (std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0);
-    // qDebug() << currentTime << endl;
+    // 更新后端中的世界
     world->updateAll(currentTime);
+    // 更新UI的世界
     overlookGraph->repaint();
 
+    // 更新控制台的显示数字
     std::string tempString = "total number: " + std::to_string(widgets->cowWidget->getNumberOfCreature()) + "; male: " + std::to_string(widgets->cowWidget->getNumberOfMale()) + "; female: " + std::to_string(widgets->cowWidget->getNumberOfCreature() - widgets->cowWidget->getNumberOfMale());
     ui->label_cow->setText(QString::fromStdString(tempString));
 

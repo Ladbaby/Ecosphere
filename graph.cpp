@@ -1,12 +1,7 @@
 #include "graph.h"
 #include "mainwindow.h"
 
-graph::graph(QWidget* parent) : QOpenGLWidget(parent)
-{
-
-    // customizedImage.load(":/doge.gif");
-    // ifImage == true;
-}
+graph::graph(QWidget* parent) : QOpenGLWidget(parent){}
 
 void graph::paintEvent(QPaintEvent* event) {
     //由于QImage对性能有较大影响，为了提高性能，分两种方法渲染
@@ -41,12 +36,6 @@ void graph::paintEvent(QPaintEvent* event) {
         canvasPainter.setClipPath(path);
         canvasPainter.drawImage(this->rect(), background, background.rect());
     }
-    //仅在鼠标拖拽并移动时及时刷新图像，防止图像窗口在静置时仍然反复刷新，降低功耗
-    if (this->ifDrag) {
-        this->update();
-        //qDebug() << "image updated: " << ifDrag;
-    }
-
 }
 
 void graph::paintGraph(QPainter& painter) {
@@ -191,40 +180,41 @@ void graph::paintGraph(QPainter& painter) {
         painter.drawLine(QPointF(10, this->viewPort1.y() * this->height() * (-1) + 10),
             QPointF(0, this->viewPort1.y() * this->height() * (-1)));
     }
-
+    // 开始绘制“世界”的情况
     if (ifOnDisplay) {
+        // 统计草格子的数量
         int grassNumber = 0;
+        // 所有草格子的密度之和，方便后续求平均
         int grassDensitySum = 0;
-        for (auto it = world->grassBegin(); it != world->grassEnd(); it++) {
+        for (auto it = world->grassBegin(); it != world->grassEnd(); it++) {// 迭代器拿到后端中所有的草
             painter.save();
-
+            // 草的密度对应于图片的透明度
             painter.setOpacity(it->second.getDensity() / grassData.maxDensity);
-            // painter.setPen(QPen(Qt::black, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            // painter.drawText(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), QString::fromStdString(std::to_string(it->second.getDensity())));
+            // 画草
             painter.drawImage(QRectF(QPointF((it->second.getPositionX() - 0.5) * scale, (it->second.getPositionY() + 0.5) * scale * (-1)), widgets->grassWidget->getImageSize()), widgets->grassWidget->getCreatureImage());
             painter.restore();
             grassNumber++;
             grassDensitySum += it->second.getDensity();
         }
+        // 更新UI的控制面板中显示的所有草的平均密度
         widgets->grassWidget->grassDensity = (double) grassDensitySum / (double) grassNumber;
-        // QBrush brush(widgets->cowWidget->getCreatureImage());
-        // painter.setBrush(brush);
+
+        // 统计牛，老虎的数量
         int cowNumber = 0;
         int tigerNumber = 0;
+        // 统计牛，老虎中的雌雄比例
         int cowNumber_male = 0;
         int tigerNumber_male = 0;
-        for (auto it = world->creatureBegin(); it != world->creatureEnd(); it++) {
+        for (auto it = world->creatureBegin(); it != world->creatureEnd(); it++) {// 拿到后端中的所有“动物”的迭代器，包含了牛和老虎
             if (it->second.getType() == cow) {
-                // painter.save();
-                // painter.setClipRegion(QRegion(QRect(QPoint(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().width() / 2) * (-1)), widgets->cowWidget->getImageSize()), QRegion::RegionType::Ellipse));
-                // painter.drawImage(QRectF(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getImageSize().width() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getImageSize().height() / 2) * (-1)), widgets->cowWidget->getImageSize()), widgets->cowWidget->getCreatureImage());
                 cowNumber++;
+                // 画牛的头像
                 painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getSmallerEdge() / 2) * (-1)), widgets->cowWidget->getImage_cropped());
                 painter.save();
+                // 画牛的运动方向
                 painter.setViewport(it->second.getPositionX() * scale + viewPort1.x() * this->width(), it->second.getPositionY() * scale * (-1) + viewPort1.y() * this->height(), this->width(), this->height());
                 painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
                 painter.drawImage(QRectF(QPointF(widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2 * (-1) * 0.5), QPointF(widgets->cowWidget->getSmallerEdge() * 0.7, widgets->cowWidget->getSmallerEdge() / 2 * 0.5)), widgets->cowWidget->getArrowImage());
-                // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
                 painter.restore();
                 // 画性别标识的圈圈
                 painter.save();
@@ -239,13 +229,13 @@ void graph::paintGraph(QPainter& painter) {
                 painter.restore();
             }
             else if (it->second.getType() == tiger) {
+                // 老虎与牛同理
                 tigerNumber++;
                 painter.drawImage(QPointF(it->second.getPositionX() * scale - widgets->tigerWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->tigerWidget->getSmallerEdge() / 2) * (-1)), widgets->tigerWidget->getImage_cropped());
                 painter.save();
                 painter.setViewport(it->second.getPositionX() * scale + viewPort1.x() * this->width(), it->second.getPositionY() * scale * (-1) + viewPort1.y() * this->height(), this->width(), this->height());
                 painter.rotate(it->second.getDirection() / 3.14 * 180 * (-1));
                 painter.drawImage(QRectF(QPointF(widgets->tigerWidget->getSmallerEdge() / 2, widgets->tigerWidget->getSmallerEdge() / 2 * (-1) * 0.5), QPointF(widgets->tigerWidget->getSmallerEdge() * 0.7, widgets->tigerWidget->getSmallerEdge() / 2 * 0.5)), widgets->tigerWidget->getArrowImage());
-                // painter.drawText(QPointF(widgets->cowWidget->getImageSize().width() / 2, widgets->cowWidget->getImageSize().width() / 2 * (-1)), QString::fromStdString(std::to_string(it->second.getDirection() / 3.14 * 180)));
                 painter.restore();
                 // 画性别标识的圈圈
                 painter.save();
@@ -259,47 +249,40 @@ void graph::paintGraph(QPainter& painter) {
                 painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
                 painter.restore();
             }
-            // 判断画能量
+            // 判断是否需要画动物的“能量”
             if (ifEnergy) {
+                // 标识能量数值
                 painter.drawText(QPointF(it->second.getPositionX() * scale - widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale + widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("energy:" + std::to_string(it->second.getEnergyRatio())));
             }
-            // 判断画年龄
+            // 判断是否需要画动物的“年龄”
             if (ifAge) {
                 painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale - widgets->cowWidget->getSmallerEdge() / 2) * (-1)), QString::fromStdString("age:" + std::to_string(it->second.getAge())));
             }
+            // 判断是否需要画动物的“状态”
             if (ifState) {
                 switch (it->second.getState())
                 {
-                case stray:
+                case stray:// 散步
                     painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale) * (-1)), QString::fromStdString("stage:stray"));
                     break;
-                case hunt:
+                case hunt:// 猎食
                     painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale) * (-1)), QString::fromStdString("stage:hunt"));
                     break;
-                case escape:
+                case escape:// 逃跑
                     painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale) * (-1)), QString::fromStdString("stage:escape"));
                     break;
-                case allert:
+                case allert:// 警戒
                     painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale) * (-1)), QString::fromStdString("stage:allert"));
                     break;
-                case reproduce:
+                case reproduce:// 繁殖
                     painter.drawText(QPointF(it->second.getPositionX() * scale + widgets->cowWidget->getSmallerEdge() / 2, ((it->second.getPositionY()) * scale) * (-1)), QString::fromStdString("stage:reproduce"));
                     break;
                 default:
                     break;
                 }
             }
-            // 画性别标识的圈圈
-            // painter.save();
-            // if (it->second.getGender() == male){// 雄性为蓝色
-            //     painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            // }
-            // else{// 雌性为红色
-            //     painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            // }
-            // painter.drawEllipse(QPointF(it->second.getPositionX() * scale, ((it->second.getPositionY()) * scale) * (-1)), widgets->cowWidget->getSmallerEdge() / 2, widgets->cowWidget->getSmallerEdge() / 2);
-            // painter.restore();
         }
+        // 更新牛和老虎在UI中显示的数量
         widgets->cowWidget->setNumberOfCreature(cowNumber);
         widgets->cowWidget->setNumberOfMale(cowNumber_male);
         widgets->tigerWidget->setNumberOfCreature(tigerNumber);
@@ -314,24 +297,22 @@ void graph::mousePressEvent(QMouseEvent* event) {
         ifDrag = true;
         //记录鼠标按下的位置
         pressPosition = event->pos();
-        //qDebug() << "Pressed: " << ifDrag << pressPosition;
     }
 }
 void graph::mouseMoveEvent(QMouseEvent* event) {
     if ((event->buttons() & Qt::LeftButton) && ifDrag) {//保证鼠标左键按下
         double tempX = viewPort1.x() + (event->pos().x() - pressPosition.x()) / graphW;
         double tempY = viewPort1.y() + (event->pos().y() - pressPosition.y()) / graphH;
+        // 更新坐标原点的位置
         viewPort1.setX(tempX);
         viewPort1.setY(tempY);
         pressPosition = event->pos();
-        //qDebug() << "Moved: " << ifDrag << pressPosition;
         this->repaint();
     }
 }
 void graph::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         ifDrag = false;
-        //qDebug() << "Released: " << ifDrag << pressPosition;
     }
 }
 
@@ -342,6 +323,7 @@ void graph::wheelEvent(QWheelEvent* event) {
     if (scale <= 0.3) {
         scale -= event->angleDelta().y() / 120;
     }
+    // 更新草的头像的显示大小
     widgets->grassWidget->setImageSize(widgets->grassWidget->getImageSize().scaled(scale, scale, Qt::KeepAspectRatioByExpanding));
     //及时刷新图像
     this->update();

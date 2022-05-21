@@ -1,6 +1,5 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-
 #include <QOpenGLWidget>
 #include <QMouseEvent>
 #include <QPainter>
@@ -15,7 +14,6 @@
 #include "Creature.h"
 #include "Grass.h"
 #include "Parameter.h"
-// #include "mainwindow.h"
 
 //自定义图像显示区域的QOpenGLWidget
 class graph : public QOpenGLWidget
@@ -30,7 +28,7 @@ public:
     //记录此时图像窗口的宽高
     double graphW;
     double graphH;
-
+    // “世界”的长度和宽度
     double worldWidth = 0.0;
     double worldHeight = 0.0;
     //图像，在保存图片时使用
@@ -39,9 +37,10 @@ public:
     QColor backgroundColor = Qt::white;
     //用户自定义的背景图片
     QImage customizedImage;
+    // 访问其它qwidget的接口
     Widgets *widgets;
+    // 来自后端的“世界”对象，使得能够访问后端
     World *world;
-    // Ui::MainWindow *ui;
     //判定是否有customizedImage
     bool ifImage = false;
     //判定鼠标是否按下并拖拽
@@ -52,10 +51,9 @@ public:
     bool ifAxis = true;
     //记录Save按钮是否被触发
     bool ifSave = false;
-    //是否显示关键点
-    bool ifPoint = false;
     //判定是否渲染的为第一帧，用以初始化viewPort1
     bool firstRender = true;
+    // 判定当前是否需要绘制“世界”的情况
     bool ifOnDisplay = false;
     // 显示的生物的属性
     bool ifAge = false;
