@@ -17,7 +17,7 @@ Ecosphere simulation for course "Data Structure"
 
     which can be visualized by toggling the option button in menu bar
 - Changing the **initial average density** of grass, and the **number** of cow and tiger, all of which will display the real-time value on the control panel (bottom panel) once the simulation start.
-- The **image** representing the three creatures can be changed, and even the background image of the ecospherex
+- The **image** representing the three creatures can be changed, and even the background image of the ecosphere
 
 ## Source Codes
 - Front end:
